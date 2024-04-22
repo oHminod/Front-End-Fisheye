@@ -1,6 +1,6 @@
 import { displayModal } from "../utils/contactForm.js";
 
-export function photographerTemplate(photographer, media) {
+export function photographerTemplate(photographer) {
     const { name, portrait, id, city, country, tagline, price } = photographer;
 
     const picture = `assets/photographers/${portrait}`;
@@ -31,7 +31,6 @@ export function photographerTemplate(photographer, media) {
     }
 
     function getPhotographerInfoDOM() {
-        console.log("getPhotographerInfoDOM");
         const article = document.createElement("article");
         const infoDiv = document.createElement("div");
         const h1 = document.createElement("h1");
@@ -63,29 +62,10 @@ export function photographerTemplate(photographer, media) {
         return article;
     }
 
-    function getMediaCardDOM() {
-        const article = document.createElement("article");
-        const img = document.createElement("img");
-        img.setAttribute("src", `assets/${media}`);
-        img.setAttribute("alt", name);
-        const h2 = document.createElement("h2");
-        h2.textContent = name;
-        const p = document.createElement("p");
-        p.textContent = tagline;
-        const span = document.createElement("span");
-        span.textContent = `${price}€/jour`;
-        article.appendChild(img);
-        article.appendChild(h2);
-        article.appendChild(p);
-        article.appendChild(span);
-        return article;
-    }
-
     return {
         name,
         picture,
         getUserCardDOM,
         getPhotographerInfoDOM,
-        getMediaCardDOM,
     };
 }

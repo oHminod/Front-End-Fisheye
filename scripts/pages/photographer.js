@@ -1,3 +1,4 @@
+import { mediaTemplate } from "../templates/media.js";
 import { photographerTemplate } from "../templates/photographer.js";
 import { fetchData } from "./index.js";
 
@@ -6,11 +7,20 @@ async function displayPhotographerData(photographer) {
     const photographerInfoModel = photographerTemplate(photographer);
     const photographerInfoDOM = photographerInfoModel.getPhotographerInfoDOM();
     photographerHeader.appendChild(photographerInfoDOM);
-    console.log("photographer", photographer);
 }
 
 async function displayMediaData(media) {
-    console.log(media);
+    const mainSection = document.getElementById("main");
+    const mediaSection = document.createElement("section");
+    mediaSection.setAttribute("class", "media_section");
+
+    media.forEach((media) => {
+        const mediaModel = mediaTemplate(media);
+        const mediaDOM = mediaModel.getMediaCardDOM();
+        mediaSection.appendChild(mediaDOM);
+    });
+
+    mainSection.appendChild(mediaSection);
 }
 
 async function init() {
