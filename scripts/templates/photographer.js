@@ -1,5 +1,7 @@
-export function photographerTemplate(data) {
-    const { name, portrait, id, city, country, tagline, price } = data;
+import { displayModal } from "../utils/contactForm.js";
+
+export function photographerTemplate(photographer, media) {
+    const { name, portrait, id, city, country, tagline, price } = photographer;
 
     const picture = `assets/photographers/${portrait}`;
 
@@ -27,5 +29,63 @@ export function photographerTemplate(data) {
         article.appendChild(span);
         return article;
     }
-    return { name, picture, getUserCardDOM };
+
+    function getPhotographerInfoDOM() {
+        console.log("getPhotographerInfoDOM");
+        const article = document.createElement("article");
+        const infoDiv = document.createElement("div");
+        const h1 = document.createElement("h1");
+        h1.textContent = name;
+        const h2 = document.createElement("h2");
+        h2.textContent = `${city}, ${country}`;
+        const p = document.createElement("p");
+        p.textContent = tagline;
+
+        const contactButton = document.createElement("button");
+        contactButton.textContent = "Contactez-moi";
+        contactButton.setAttribute("aria-label", `Contactez ${name}`);
+        contactButton.setAttribute("class", "contact_button");
+        contactButton.addEventListener("click", () => {
+            displayModal();
+        });
+
+        const avatar = document.createElement("img");
+        avatar.setAttribute("src", picture);
+        avatar.setAttribute("alt", name);
+        avatar.setAttribute("class", "avatar");
+
+        infoDiv.appendChild(h1);
+        infoDiv.appendChild(h2);
+        infoDiv.appendChild(p);
+        article.appendChild(infoDiv);
+        article.appendChild(contactButton);
+        article.appendChild(avatar);
+        return article;
+    }
+
+    function getMediaCardDOM() {
+        const article = document.createElement("article");
+        const img = document.createElement("img");
+        img.setAttribute("src", `assets/${media}`);
+        img.setAttribute("alt", name);
+        const h2 = document.createElement("h2");
+        h2.textContent = name;
+        const p = document.createElement("p");
+        p.textContent = tagline;
+        const span = document.createElement("span");
+        span.textContent = `${price}€/jour`;
+        article.appendChild(img);
+        article.appendChild(h2);
+        article.appendChild(p);
+        article.appendChild(span);
+        return article;
+    }
+
+    return {
+        name,
+        picture,
+        getUserCardDOM,
+        getPhotographerInfoDOM,
+        getMediaCardDOM,
+    };
 }

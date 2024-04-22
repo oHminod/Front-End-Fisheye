@@ -1,5 +1,9 @@
 @import url("photographer.css");
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: "DM Sans", sans-serif;
     margin: 0;
@@ -63,7 +67,8 @@ header a {
     margin-bottom: 0;
 }
 
-.photographer_section article img {
+.photographer_section article img,
+.photograph-header img {
     height: 200px;
     width: 200px;
     border-radius: 50%;
@@ -86,4 +91,13 @@ header a {
     color: #707070;
     font-weight: bold;
     font-size: 14px;
+}
+
+.photograph-header article {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
 }
