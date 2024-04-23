@@ -19,21 +19,37 @@
       </div>
     </main>
     <div id="contact_modal">
+      <div id="modal_background"></div>
 			<div class="modal">
-				<header>
-          <h2>Contactez-moi</h2>
-          <img src="assets/icons/close.svg" onclick="closeModal()" id="close-modal-btn" />
+				<header id="modal_header">
+          <div class="modal-header-text">
+            <h2>Contactez-moi</h2>
+            <h2 id="photographer_name"></h2>
+          </div>
+          <img src="assets/icons/close.svg" id="close-modal-btn" />
         </header>
-				<form>
+				<form id="modal_form">
 					<div>
-						<label>Prénom</label>
-						<input />
+						<label for="firstname">Prénom</label>
+						<input type="text" name="firstname" id="firstname" />
 					</div>
-          <button class="contact_button">Envoyer</button>
+          <div>
+            <label for="lastname">Nom</label>
+            <input type="text" name="lastname" id="lastname" />
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" />
+          </div>
+          <div>
+            <label for="message">Votre message</label>
+            <textarea name="message" id="message"></textarea>
+          </div>
+          <button class="contact_button" aria-label="Envoyer le formulaire de contact">Envoyer</button>
 				</form>
 			</div>
 		</div>
     <script type="module" src="/scripts/pages/photographer.js"></script>
-    <script src="/scripts/utils/contactForm.js"></script>
+    <script type="module" src="/scripts/utils/contactForm.js"></script>
   </body>
 </html>

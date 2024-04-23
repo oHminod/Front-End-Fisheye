@@ -45,7 +45,7 @@ export function photographerTemplate(photographer) {
         contactButton.setAttribute("aria-label", `Contactez ${name}`);
         contactButton.setAttribute("class", "contact_button");
         contactButton.addEventListener("click", () => {
-            displayModal();
+            displayModal(name);
         });
 
         const avatar = document.createElement("img");
