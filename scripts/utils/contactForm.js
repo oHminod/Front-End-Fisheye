@@ -11,6 +11,11 @@ export function displayModal(name) {
     close.setAttribute("aria-label", "Fermer la fenêtre modale");
     modalBackground.addEventListener("click", closeModal);
     close.addEventListener("click", closeModal);
+    close.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            closeModal();
+        }
+    });
     form.addEventListener("submit", submitForm);
 }
 
@@ -18,6 +23,11 @@ export function closeModal() {
     modal.style.display = "none";
     modalBackground.removeEventListener("click", closeModal);
     close.removeEventListener("click", closeModal);
+    close.removeEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            closeModal();
+        }
+    });
     form.removeEventListener("submit", submitForm);
 }
 

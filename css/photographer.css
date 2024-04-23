@@ -13,6 +13,23 @@
     cursor: pointer;
 }
 
+#info_card {
+    display: flex;
+    gap: 50px;
+    position: fixed;
+    bottom: 0;
+    right: 20px;
+    background-color: #db8876;
+    padding: 10px 20px;
+    border-radius: 5px 5px 0 0;
+}
+
+#info_card p {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+}
+
 .photograph-header {
     background-color: #fafafa;
     height: 300px;
@@ -30,6 +47,11 @@
     background-color: #901c1c;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.contact_button:hover, .contact_button:focus {
+    background-color: #d3573c;
+    color: black;
 }
 
 .modal {
@@ -125,5 +147,6 @@ form textarea {
 
 .cartouche h2,
 .cartouche p {
+    color: 
     margin: 0;
 }
