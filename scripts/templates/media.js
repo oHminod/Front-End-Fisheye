@@ -24,9 +24,11 @@ export function mediaTemplate(media) {
             img.setAttribute("alt", title);
             article.appendChild(img);
         } else if (video) {
+            const posterUrl = `assets/media/poster/${video.slice(0, -4)}.jpg`;
             const videoElement = document.createElement("video");
             videoElement.setAttribute("src", `assets/media/${video}`);
             videoElement.setAttribute("alt", title);
+            videoElement.setAttribute("poster", posterUrl);
             article.appendChild(videoElement);
         }
 
