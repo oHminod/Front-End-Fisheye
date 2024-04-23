@@ -1,4 +1,6 @@
-export function mediaTemplate(media) {
+import { displayLightbox } from "../utils/lightBox.js";
+
+export function mediaTemplate(media, index, sortedMedia) {
     const {
         id: mediaId,
         photographerId,
@@ -17,11 +19,22 @@ export function mediaTemplate(media) {
         article.setAttribute("data-photographer-id", photographerId);
         article.setAttribute("data-date", date);
         article.setAttribute("data-price", mediaPrice);
+        article.setAttribute("data-index", index);
 
         if (image) {
             const img = document.createElement("img");
             img.setAttribute("src", `assets/media/${image}`);
             img.setAttribute("alt", title);
+            img.setAttribute("tabindex", "0");
+            img.setAttribute("aria-label", "Ouvrir l'image " + title);
+            img.addEventListener("keydown", function (event) {
+                if (event.key === "Enter") {
+                    displayLightbox(sortedMedia, index);
+                }
+            });
+            img.addEventListener("click", () => {
+                displayLightbox(sortedMedia, index);
+            });
             article.appendChild(img);
         } else if (video) {
             const posterUrl = `assets/media/poster/${video.slice(0, -4)}.jpg`;
@@ -29,6 +42,9 @@ export function mediaTemplate(media) {
             videoElement.setAttribute("src", `assets/media/${video}`);
             videoElement.setAttribute("alt", title);
             videoElement.setAttribute("poster", posterUrl);
+            videoElement.addEventListener("click", () => {
+                displayLightbox(sortedMedia, index);
+            });
             article.appendChild(videoElement);
         }
 

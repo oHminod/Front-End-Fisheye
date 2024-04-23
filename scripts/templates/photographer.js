@@ -43,6 +43,7 @@ export function photographerTemplate(photographer) {
         const contactButton = document.createElement("button");
         contactButton.textContent = "Contactez-moi";
         contactButton.setAttribute("aria-label", `Contactez ${name}`);
+        contactButton.setAttribute("tabindex", "0");
         contactButton.setAttribute("class", "contact_button");
         contactButton.addEventListener("click", () => {
             displayModal(name);

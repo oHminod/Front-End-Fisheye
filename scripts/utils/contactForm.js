@@ -5,6 +5,16 @@ const form = document.getElementById("modal_form");
 
 export function displayModal(name) {
     modal.style.display = "flex";
+    const firstname = document.getElementById("firstname");
+    const lastname = document.getElementById("lastname");
+    const email = document.getElementById("email");
+    const message = document.getElementById("message");
+    const submit = document.getElementById("submit");
+    firstname.setAttribute("tabindex", "0");
+    lastname.setAttribute("tabindex", "0");
+    email.setAttribute("tabindex", "0");
+    message.setAttribute("tabindex", "0");
+    submit.setAttribute("tabindex", "0");
     const photographerName = document.getElementById("photographer_name");
     photographerName.textContent = name;
     close.setAttribute("tabindex", "0");

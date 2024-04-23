@@ -24,9 +24,10 @@ function displayMediaData(media) {
     mediaSection.setAttribute("class", "media_section");
 
     const sortedMedia = sortMedia("date", media);
+    // sortedMedia[0].likes += 10;
 
-    sortedMedia.forEach((media) => {
-        const mediaModel = mediaTemplate(media);
+    sortedMedia.forEach((media, index) => {
+        const mediaModel = mediaTemplate(media, index, sortedMedia);
         const mediaDOM = mediaModel.getMediaCardDOM();
         mediaSection.appendChild(mediaDOM);
     });
