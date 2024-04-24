@@ -12,7 +12,7 @@
   </head>
   <body>
     <header>
-      <a href="/" aria-label="Lien vers la page d'accueil" tabindex="0">
+      <a href="/" aria-label="Lien vers la page d'accueil" tabindex="0" id="logo_link">
         <img src="assets/images/logo.png" class="logo" alt="fisheye logo" />
       </a>
     </header>
@@ -85,5 +85,14 @@
     </div>
     <script type="module" src="scripts/pages/photographer.js"></script>
     <script type="module" src="scripts/utils/contactForm.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', (event) => {
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const logoLink = document.queryElementById('logo_link');
+        if (logoLink) {
+          logoLink.href = isLocal ? '/' : '/Front-End-Fisheye/';
+        }
+      });
+    </script>
   </body>
 </html>
