@@ -27,6 +27,13 @@ export function displayModal(name) {
             closeModal();
         }
     });
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+            closeModal();
+        }
+    });
+
     form.addEventListener("submit", submitForm);
 }
 

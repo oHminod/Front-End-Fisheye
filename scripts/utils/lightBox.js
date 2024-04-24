@@ -16,12 +16,17 @@ export function displayLightbox(media, index) {
             closeLightbox(media, previousIndex, nextIndex);
         }
     });
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+            closeLightbox(media, previousIndex, nextIndex);
+        }
+    });
     const previousBtn = document.createElement("button");
     previousBtn.classList.add("previous-btn");
     previousBtn.setAttribute("aria-label", "Image précédente");
     previousBtn.setAttribute("tabindex", "0");
     previousBtn.innerText = "<";
-    previousBtn.addEventListener("click", () => {
+    previousBtn.addEventListener("click", function () {
         removeLighboxContent(media, previousIndex, nextIndex);
         displayLightbox(media, previousIndex);
     });
@@ -37,7 +42,7 @@ export function displayLightbox(media, index) {
     nextBtn.setAttribute("aria-label", "Image suivante");
     nextBtn.setAttribute("tabindex", "0");
     nextBtn.innerText = ">";
-    nextBtn.addEventListener("click", () => {
+    nextBtn.addEventListener("click", function () {
         removeLighboxContent(media, previousIndex, nextIndex);
         displayLightbox(media, nextIndex);
     });
@@ -48,6 +53,18 @@ export function displayLightbox(media, index) {
     //         displayLightbox(media, nextIndex);
     //     }
     // });
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "ArrowLeft") {
+            removeLighboxContent(media, previousIndex, nextIndex);
+            displayLightbox(media, previousIndex);
+        }
+    });
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "ArrowRight") {
+            removeLighboxContent(media, previousIndex, nextIndex);
+            displayLightbox(media, nextIndex);
+        }
+    });
 
     if (media[index].image) {
         const image = document.createElement("img");
@@ -87,12 +104,12 @@ function removeLighboxContent(media, previousIndex, nextIndex) {
             closeLightbox();
         }
     });
-    previousBtn.removeEventListener("click", () => {
-        removeLighboxContent();
+    previousBtn.removeEventListener("click", function () {
+        removeLighboxContent(media, previousIndex, nextIndex);
         displayLightbox(media, previousIndex);
     });
-    nextBtn.removeEventListener("click", () => {
-        removeLighboxContent();
+    nextBtn.removeEventListener("click", function () {
+        removeLighboxContent(media, previousIndex, nextIndex);
         displayLightbox(media, nextIndex);
     });
     lightboxContent.innerHTML = "";
