@@ -9,10 +9,10 @@ export function photographerTemplate(photographer) {
         const article = document.createElement("article");
         const link = document.createElement("a");
         link.setAttribute("href", `photographer.html?id=${id}`);
-        link.setAttribute("aria-label", `Voir la page de ${name}`);
+        link.setAttribute("title", name);
         const img = document.createElement("img");
         img.setAttribute("src", picture);
-        img.setAttribute("alt", name);
+        img.setAttribute("alt", "image de " + name);
         const h2 = document.createElement("h2");
         h2.textContent = name;
         const h3 = document.createElement("h3");
@@ -41,7 +41,8 @@ export function photographerTemplate(photographer) {
         p.textContent = tagline;
 
         const contactButton = document.createElement("button");
-        contactButton.textContent = "Contactez-moi";
+        contactButton.textContent = `Contactez ${name}`;
+        contactButton.setAttribute("title", `Contactez ${name}`);
         contactButton.setAttribute("aria-label", `Contactez ${name}`);
         contactButton.setAttribute("tabindex", "0");
         contactButton.setAttribute("class", "contact_button");
