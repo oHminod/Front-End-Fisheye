@@ -73,13 +73,13 @@ export function mediaTemplate(media, index, sortedMedia, photographer) {
         const h2 = document.createElement("h2");
         h2.textContent = title;
         const itemLikes = document.createElement("p");
-        const heart = document.createElement("i");
+        const heart = document.createElement("span");
         heart.setAttribute("class", "fa-regular fa-heart");
-        heart.setAttribute("tabindex", "0");
+        itemLikes.setAttribute("tabindex", "0");
         heart.style.marginLeft = "0.5rem";
-        heart.style.cursor = "pointer";
+        itemLikes.style.cursor = "pointer";
 
-        heart.addEventListener("click", () => {
+        itemLikes.addEventListener("click", () => {
             if (heart.classList.contains("fa-regular")) {
                 heart.classList.replace("fa-regular", "fa");
                 sortedMedia[index].likes += 1;
@@ -94,7 +94,7 @@ export function mediaTemplate(media, index, sortedMedia, photographer) {
             displayInfoCard(photographer, sortedMedia);
         });
 
-        heart.addEventListener("keydown", function (event) {
+        itemLikes.addEventListener("keydown", function (event) {
             if (event.key === "Enter") {
                 event.preventDefault();
                 if (heart.classList.contains("fa-regular")) {
