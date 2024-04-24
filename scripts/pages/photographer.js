@@ -81,43 +81,70 @@ async function init() {
 init();
 
 const customOptions = document.getElementById("custom_options");
+const mainContent = document.getElementById("main");
+const firsOption = document.querySelector(".first-option");
 document
     .querySelector(".custom-select-trigger")
     .addEventListener("click", function () {
+        mainContent.setAttribute("aria-hidden", "true");
+        customOptions.setAttribute("aria-hidden", "false");
         customOptions.classList.add("flex");
+    });
+document
+    .querySelector(".custom-select-trigger")
+    .addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            mainContent.setAttribute("aria-hidden", "true");
+            customOptions.setAttribute("aria-hidden", "false");
+            customOptions.classList.add("flex");
+            firsOption.focus();
+        }
     });
 
 document.querySelectorAll(".custom-option").forEach((option) => {
-    option.addEventListener("click", async function () {
-        if (!option.classList.contains("selected")) {
-            option.parentNode
-                .querySelector(".custom-option.selected")
-                .classList.remove("selected");
-            option.classList.add("selected");
-            const selectedOption = document.getElementById("selected_option");
-            selectedOption.textContent = option.textContent;
-            selectedOption.setAttribute(
-                "data-value",
-                option.getAttribute("data-value")
-            );
-            const mediaSection = document.querySelector(".media_section");
-            mediaSection.remove();
-            const { photographers, media } = await fetchData();
-            const searchParams = new URLSearchParams(window.location.search);
-            const id = searchParams.get("id");
-            const photographer = photographers.find(
-                (photographer) => photographer.id == id
-            );
-            const photographerMedia = media.filter(
-                (media) => media.photographerId == id
-            );
-            displayMediaData(
-                photographerMedia,
-                photographer,
-                option.getAttribute("data-value")
-            );
-        }
-
-        customOptions.classList.remove("flex");
+    option.addEventListener("click", async () => {
+        await selectFilter(option);
     });
 });
+document.querySelectorAll(".custom-option").forEach((option) => {
+    option.addEventListener("keydown", async (event) => {
+        if (event.key === "Enter") {
+            await selectFilter(option);
+        }
+    });
+});
+
+async function selectFilter(option) {
+    if (!option.classList.contains("selected")) {
+        option.parentNode
+            .querySelector(".custom-option.selected")
+            .classList.remove("selected");
+        option.classList.add("selected");
+        const selectedOption = document.getElementById("selected_option");
+        selectedOption.textContent = option.textContent;
+        selectedOption.setAttribute(
+            "data-value",
+            option.getAttribute("data-value")
+        );
+        const mediaSection = document.querySelector(".media_section");
+        mediaSection.remove();
+        const { photographers, media } = await fetchData();
+        const searchParams = new URLSearchParams(window.location.search);
+        const id = searchParams.get("id");
+        const photographer = photographers.find(
+            (photographer) => photographer.id == id
+        );
+        const photographerMedia = media.filter(
+            (media) => media.photographerId == id
+        );
+        displayMediaData(
+            photographerMedia,
+            photographer,
+            option.getAttribute("data-value")
+        );
+        mainContent.setAttribute("aria-hidden", "false");
+        customOptions.setAttribute("aria-hidden", "true");
+    }
+
+    customOptions.classList.remove("flex");
+}

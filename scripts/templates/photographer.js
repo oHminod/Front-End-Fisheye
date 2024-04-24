@@ -40,7 +40,10 @@ export function photographerTemplate(photographer) {
         const p = document.createElement("p");
         p.textContent = tagline;
 
+        const firstName = document.getElementById("firstname");
         const contactButton = document.createElement("button");
+        const mainContent = document.getElementById("main");
+        const contactModal = document.getElementById("contact_modal");
         contactButton.textContent = `Contactez ${name}`;
         contactButton.setAttribute("title", `Contactez ${name}`);
         contactButton.setAttribute("aria-label", `Contactez ${name}`);
@@ -48,6 +51,9 @@ export function photographerTemplate(photographer) {
         contactButton.setAttribute("class", "contact_button");
         contactButton.addEventListener("click", () => {
             displayModal(name);
+            mainContent.setAttribute("aria-hidden", "true");
+            contactModal.setAttribute("aria-hidden", "false");
+            firstName.focus();
         });
 
         const avatar = document.createElement("img");

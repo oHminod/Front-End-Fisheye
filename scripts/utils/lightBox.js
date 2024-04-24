@@ -2,6 +2,7 @@ const lightBox = document.getElementById("lightbox");
 const lightboxBackground = document.getElementById("lightbox_background");
 const lightboxContent = document.getElementById("lightbox_content");
 const closeLightboxBtn = document.getElementById("close-lightbox-btn");
+const mainContent = document.getElementById("main");
 
 export function displayLightbox(media, index) {
     const previousIndex = index - 1 < 0 ? media.length - 1 : index - 1;
@@ -24,12 +25,13 @@ export function displayLightbox(media, index) {
         removeLighboxContent(media, previousIndex, nextIndex);
         displayLightbox(media, previousIndex);
     });
-    previousBtn.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-            removeLighboxContent(media, previousIndex, nextIndex);
-            displayLightbox(media, previousIndex);
-        }
-    });
+    // previousBtn.addEventListener("keydown", function (event) {
+    //     if (event.key === "Enter") {
+    //         event.preventDefault();
+    //         removeLighboxContent(media, previousIndex, nextIndex);
+    //         displayLightbox(media, previousIndex);
+    //     }
+    // });
     const nextBtn = document.createElement("button");
     nextBtn.classList.add("next-btn");
     nextBtn.setAttribute("aria-label", "Image suivante");
@@ -39,12 +41,13 @@ export function displayLightbox(media, index) {
         removeLighboxContent(media, previousIndex, nextIndex);
         displayLightbox(media, nextIndex);
     });
-    nextBtn.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-            removeLighboxContent(media, previousIndex, nextIndex);
-            displayLightbox(media, nextIndex);
-        }
-    });
+    // nextBtn.addEventListener("keydown", function (event) {
+    //     if (event.key === "Enter") {
+    //         event.preventDefault();
+    //         removeLighboxContent(media, previousIndex, nextIndex);
+    //         displayLightbox(media, nextIndex);
+    //     }
+    // });
 
     if (media[index].image) {
         const image = document.createElement("img");
@@ -71,6 +74,7 @@ export function displayLightbox(media, index) {
 
     lightboxContent.appendChild(previousBtn);
     lightboxContent.appendChild(nextBtn);
+    nextBtn.focus();
 }
 
 function removeLighboxContent(media, previousIndex, nextIndex) {
@@ -114,6 +118,9 @@ export function closeLightbox(media, previousIndex, nextIndex) {
         displayLightbox(media, nextIndex);
     });
     lightboxContent.innerHTML = "";
+
+    mainContent.setAttribute("aria-hidden", "false");
+    lightBox.setAttribute("aria-hidden", "true");
 
     // modalBackground.removeEventListener("click", closeModal);
     // close.removeEventListener("click", closeModal);

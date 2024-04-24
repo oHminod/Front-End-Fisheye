@@ -9,7 +9,7 @@
 #modal_background {
     position: absolute;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(255, 255, 255, 0.9);
     cursor: pointer;
 }
 
@@ -116,11 +116,23 @@
     background-color: #fafafa;
     height: 300px;
     margin: 0 100px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .photograph-header h1 {
     font-size: 52px;
     color: #d3573c;
+}
+.photograph-header h1,
+.photograph-header h2,
+.photograph-header p {
+    margin: 0;
+}
+.photograph-header h2 {
+    margin: 10px 0;
+    color: #901c1c;
+    font-weight: 100;
 }
 
 .contact_button {
@@ -129,7 +141,7 @@
     color: white;
     padding: 11px;
     width: 170px;
-    height: 70px;
+    min-height: 70px;
     border: none;
     background-color: #901c1c;
     border-radius: 5px;
@@ -302,8 +314,12 @@ form textarea {
     justify-content: center;
     color: white;
 }
+.custom-options:hover .arrow,
+.custom-options:focus .arrow {
+    z-index: 100;
+}
 .custom-options .arrow {
-    transform: rotate(180deg);
+    transform: rotate(180deg) scale(1.25);
 }
 .custom-options {
     display: none;
@@ -336,7 +352,17 @@ form textarea {
     font-size: 20px;
     color: white;
     cursor: pointer;
+    background: none;
+    border: none;
+    z-index: 100;
     /* border-radius: 5px; */
+}
+.custom-option:hover,
+.custom-option:focus,
+.custom-select-trigger:hover,
+.custom-select-trigger:focus {
+    background-color: #d3573c;
+    border-radius: 5px;
 }
 
 .flex {

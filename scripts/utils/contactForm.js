@@ -2,6 +2,7 @@ const modal = document.getElementById("contact_modal");
 const modalBackground = document.getElementById("modal_background");
 const close = document.getElementById("close-modal-btn");
 const form = document.getElementById("modal_form");
+const mainContent = document.getElementById("main");
 
 export function displayModal(name) {
     modal.style.display = "flex";
@@ -39,6 +40,8 @@ export function closeModal() {
         }
     });
     form.removeEventListener("submit", submitForm);
+    mainContent.setAttribute("aria-hidden", "false");
+    modal.setAttribute("aria-hidden", "true");
 }
 
 function submitForm(e) {

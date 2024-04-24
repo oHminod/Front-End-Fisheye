@@ -16,23 +16,23 @@
         <img src="assets/images/logo.png" class="logo" alt="fisheye logo" />
       </a>
     </header>
-    <main id="main">
+    <main id="main" aria-hidden="false">
       <div class="photograph-header">
         <!-- <button class="contact_button" onclick="displayModal()">Contactez-moi</button> -->
       </div>
       <div class="filter-result">
         <h2>Trier par </h2>
         <div class="custom-select-filter" id="filter_select">
-          <div class="custom-select-trigger">
+          <div class="custom-select-trigger" tabindex="0">
             <p id="selected_option">Popularité</p>
             <div class="arrow"><p><i class="fa-solid fa-chevron-down"></i></p></div>
           </div>
-          <div class="custom-options" id="custom_options">
-            <span class="custom-option selected" data-value="likes">Popularité</span>
+          <div class="custom-options" id="custom_options" aria-hidden="true">
+            <span class="custom-option selected first-option" data-value="likes" aria-label="Trier par popularité" tabindex="0" >Popularité</span>
             <hr>
-            <span class="custom-option" data-value="date">Date</span>
+            <span class="custom-option" data-value="date" aria-label="Trier par date" tabindex="0" >Date</span>
             <hr>
-            <span class="custom-option" data-value="title">Titre</span>
+            <span class="custom-option" data-value="title" aria-label="Trier par titre" tabindex="0" >Titre</span>
             <div class="arrow"><p><i class="fa-solid fa-chevron-down"></i></p></div>
           </div>
         </div>
@@ -46,7 +46,7 @@
         </div> -->
       </div>
     </main>
-    <div id="contact_modal">
+    <div id="contact_modal" aria-hidden="true">
       <div id="modal_background"></div>
 			<div class="modal">
 				<header id="modal_header">
@@ -78,7 +78,7 @@
 			</div>
 		</div>
     <div id="info_card"></div>
-    <div id="lightbox">
+    <div id="lightbox" aria-hidden="true">
       <div id="lightbox_background"></div>
       <div id="lightbox_content"></div>
       <div id="close-lightbox-btn" tabindex="0"><i class="fa fa-times"></i></div>

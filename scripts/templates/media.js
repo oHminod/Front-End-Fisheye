@@ -12,6 +12,8 @@ export function mediaTemplate(media, index, sortedMedia, photographer) {
         price: mediaPrice,
         title,
     } = media;
+    const mainContent = document.getElementById("main");
+    const lightBox = document.getElementById("lightbox");
 
     function getMediaCardDOM() {
         const article = document.createElement("article");
@@ -30,11 +32,16 @@ export function mediaTemplate(media, index, sortedMedia, photographer) {
             img.setAttribute("aria-label", "Ouvrir l'image " + title);
             img.addEventListener("keydown", function (event) {
                 if (event.key === "Enter") {
+                    event.preventDefault();
                     displayLightbox(sortedMedia, index);
+                    mainContent.setAttribute("aria-hidden", "true");
+                    lightBox.setAttribute("aria-hidden", "false");
                 }
             });
             img.addEventListener("click", () => {
                 displayLightbox(sortedMedia, index);
+                mainContent.setAttribute("aria-hidden", "true");
+                lightBox.setAttribute("aria-hidden", "false");
             });
             article.appendChild(img);
         } else if (video) {
@@ -47,11 +54,16 @@ export function mediaTemplate(media, index, sortedMedia, photographer) {
             videoElement.setAttribute("aria-label", "Ouvrir la vidéo " + title);
             videoElement.addEventListener("keydown", function (event) {
                 if (event.key === "Enter") {
+                    event.preventDefault();
                     displayLightbox(sortedMedia, index);
+                    mainContent.setAttribute("aria-hidden", "true");
+                    lightBox.setAttribute("aria-hidden", "false");
                 }
             });
             videoElement.addEventListener("click", () => {
                 displayLightbox(sortedMedia, index);
+                mainContent.setAttribute("aria-hidden", "true");
+                lightBox.setAttribute("aria-hidden", "false");
             });
             article.appendChild(videoElement);
         }
