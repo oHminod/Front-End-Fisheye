@@ -45,6 +45,7 @@ export function mediaTemplate(media, index, sortedMedia, photographer) {
         const heart = document.createElement("span");
         heart.setAttribute("class", "fa-regular fa-heart");
         itemLikes.setAttribute("tabindex", "0");
+        itemLikes.setAttribute("aria-label", "liker l'image " + title);
         heart.style.marginLeft = "0.5rem";
         itemLikes.style.cursor = "pointer";
 

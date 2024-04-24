@@ -38,6 +38,7 @@ function setupLightbox() {
 
 function setupCloseButton() {
     closeLightboxBtn.addEventListener("click", closeLightbox);
+    closeLightboxBtn.setAttribute("aria-label", "Fermer la lightbox");
     callbacks.handleClose = (event) => {
         if (event.key === "Enter") {
             closeLightbox();
