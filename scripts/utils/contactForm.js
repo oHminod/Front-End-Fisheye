@@ -4,6 +4,8 @@ const close = document.getElementById("close-modal-btn");
 const form = document.getElementById("modal_form");
 const mainContent = document.getElementById("main");
 
+const callbacks = {};
+
 export function displayModal(name) {
     modal.style.display = "flex";
     const firstname = document.getElementById("firstname");
@@ -11,29 +13,34 @@ export function displayModal(name) {
     const email = document.getElementById("email");
     const message = document.getElementById("message");
     const submit = document.getElementById("submit");
+    const photographerName = document.getElementById("photographer_name");
     firstname.setAttribute("tabindex", "0");
     lastname.setAttribute("tabindex", "0");
     email.setAttribute("tabindex", "0");
     message.setAttribute("tabindex", "0");
     submit.setAttribute("tabindex", "0");
-    const photographerName = document.getElementById("photographer_name");
-    photographerName.textContent = name;
     close.setAttribute("tabindex", "0");
     close.setAttribute("aria-label", "Fermer la fenêtre modale");
-    modalBackground.addEventListener("click", closeModal);
-    close.addEventListener("click", closeModal);
-    close.addEventListener("keydown", function (event) {
+    mainContent.setAttribute("aria-hidden", "true");
+    modal.setAttribute("aria-hidden", "false");
+
+    callbacks.handleClose = (event) => {
         if (event.key === "Enter") {
             closeModal();
         }
-    });
-
-    document.addEventListener("keydown", function (event) {
+    };
+    callbacks.handleCloseEsc = (event) => {
         if (event.key === "Escape") {
             closeModal();
         }
-    });
+    };
 
+    photographerName.textContent = name;
+
+    modalBackground.addEventListener("click", closeModal);
+    close.addEventListener("click", closeModal);
+    close.addEventListener("keydown", callbacks.handleClose);
+    document.addEventListener("keydown", callbacks.handleCloseEsc);
     form.addEventListener("submit", submitForm);
 }
 
@@ -41,11 +48,8 @@ export function closeModal() {
     modal.style.display = "none";
     modalBackground.removeEventListener("click", closeModal);
     close.removeEventListener("click", closeModal);
-    close.removeEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-            closeModal();
-        }
-    });
+    close.removeEventListener("keydown", callbacks.handleClose);
+    document.removeEventListener("keydown", callbacks.handleCloseEsc);
     form.removeEventListener("submit", submitForm);
     mainContent.setAttribute("aria-hidden", "false");
     modal.setAttribute("aria-hidden", "true");

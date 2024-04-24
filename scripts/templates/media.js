@@ -78,53 +78,36 @@ export function mediaTemplate(media, index, sortedMedia, photographer) {
         heart.setAttribute("tabindex", "0");
         heart.style.marginLeft = "0.5rem";
         heart.style.cursor = "pointer";
-        // const selectedFilter =
-        //     document
-        //         .getElementById("selected_option")
-        //         .getAttribute("data-value") || "likes";
-        // const likedArticlesIds = [];
-        heart.addEventListener("click", () => {
-            // console.log("selectedFilter", selectedFilter);
 
+        heart.addEventListener("click", () => {
             if (heart.classList.contains("fa-regular")) {
                 heart.classList.replace("fa-regular", "fa");
                 sortedMedia[index].likes += 1;
-                // likedArticlesIds.push(sortedMedia[index].id);
             } else {
                 heart.classList.replace("fa", "fa-regular");
                 sortedMedia[index].likes -= 1;
-                // likedArticlesIds.pop(sortedMedia[index].id);
             }
-            // console.log("likedArticlesIds", likedArticlesIds);
+
             itemLikes.textContent = sortedMedia[index].likes;
             itemLikes.appendChild(heart);
-            // if (selectedFilter === "likes") {
-            //     const mediaSection = document.querySelector(".media_section");
-            //     mediaSection.remove();
-            //     displayMediaData(sortedMedia, photographer);
-            // }
+
             displayInfoCard(photographer, sortedMedia);
         });
+
         heart.addEventListener("keydown", function (event) {
             if (event.key === "Enter") {
                 event.preventDefault();
                 if (heart.classList.contains("fa-regular")) {
                     heart.classList.replace("fa-regular", "fa");
                     sortedMedia[index].likes += 1;
-                    // likedArticlesIds.push(sortedMedia[index].id);
                 } else {
                     heart.classList.replace("fa", "fa-regular");
                     sortedMedia[index].likes -= 1;
-                    // likedArticlesIds.pop(sortedMedia[index].id);
                 }
-                // console.log("likedArticlesIds", likedArticlesIds);
+
                 itemLikes.textContent = sortedMedia[index].likes;
                 itemLikes.appendChild(heart);
-                // if (selectedFilter === "likes") {
-                //     const mediaSection = document.querySelector(".media_section");
-                //     mediaSection.remove();
-                //     displayMediaData(sortedMedia, photographer);
-                // }
+
                 displayInfoCard(photographer, sortedMedia);
             }
         });
