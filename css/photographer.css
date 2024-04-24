@@ -284,6 +284,10 @@ form textarea {
     pointer-events: none;
 } */
 
+.filter-result button {
+    font-family: "DM Sans", sans-serif;
+}
+
 .custom-select-filter {
     position: relative;
     display: inline-block;
