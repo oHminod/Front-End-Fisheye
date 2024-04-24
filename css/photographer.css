@@ -295,37 +295,50 @@ form textarea {
     display: flex;
     height: 50px;
     align-items: center;
+    justify-content: space-between;
     padding: 10px 20px;
     font-size: 20px;
-    padding-right: 50px;
+    /* padding-right: 50px; */
     background-color: #901c1c;
     color: white;
     cursor: pointer;
     border-radius: 5px;
+    width: 180px;
 }
 
 .arrow {
-    position: absolute;
+    /* position: absolute;
     right: 0;
-    top: 0;
+    top: 0; */
     display: flex;
     height: 50px;
     width: 50px;
     align-items: center;
-    justify-content: center;
+    justify-content: end;
     color: white;
 }
-.custom-options:hover .arrow,
-.custom-options:focus .arrow {
-    z-index: 100;
+
+.first-option {
+    margin: 0;
+}
+.custom-option {
+    height: 50px;
+}
+
+.custom-select-trigger:hover .arrow,
+.custom-select-trigger:focus .arrow,
+.first-option:hover .arrow,
+.first-option:focus .arrow {
+    color: black;
 }
 .custom-options .arrow {
-    transform: rotate(180deg) scale(1.25);
+    transform: rotate(180deg);
+    justify-content: start;
 }
 .custom-options {
     display: none;
     position: absolute;
-    width: 164px;
+    width: 180px;
     top: 0;
     left: 0;
     right: 0;
@@ -347,7 +360,7 @@ form textarea {
 .custom-option {
     position: relative;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
     font-size: 20px;
@@ -364,6 +377,7 @@ form textarea {
 .custom-select-trigger:focus {
     background-color: #d3573c;
     border-radius: 5px;
+    color: black;
 }
 
 .flex {
