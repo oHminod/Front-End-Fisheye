@@ -88,9 +88,9 @@
     <script>
       document.addEventListener('DOMContentLoaded', (event) => {
         const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-        const logoLink = document.queryElementById('logo_link');
+        const logoLink = document.getElementById('logo_link');
         if (logoLink) {
-          logoLink.href = isLocal ? '/' : '/Front-End-Fisheye/';
+          logoLink.href = isLocal ? '/' : 'Front-End-Fisheye/';
         }
       });
     </script>
