@@ -4,67 +4,64 @@ const lightboxContent = document.getElementById("lightbox_content");
 const closeLightboxBtn = document.getElementById("close-lightbox-btn");
 const mainContent = document.getElementById("main");
 
+const callbacks = {};
+
 export function displayLightbox(media, index) {
     const previousIndex = index - 1 < 0 ? media.length - 1 : index - 1;
     const nextIndex = index + 1 >= media.length ? 0 : index + 1;
-    console.log(media, index);
+
     lightBox.style.display = "flex";
     lightboxBackground.addEventListener("click", closeLightbox);
     closeLightboxBtn.addEventListener("click", closeLightbox);
-    closeLightboxBtn.addEventListener("keydown", function (event) {
+    callbacks.handleClose = (event) => {
         if (event.key === "Enter") {
-            closeLightbox(media, previousIndex, nextIndex);
+            closeLightbox();
         }
-    });
-    document.addEventListener("keydown", function (event) {
+    };
+    callbacks.handleEscapeClose = (event) => {
         if (event.key === "Escape") {
-            closeLightbox(media, previousIndex, nextIndex);
+            closeLightbox();
         }
-    });
+    };
+
+    closeLightboxBtn.addEventListener("keydown", callbacks.handleClose);
+    document.addEventListener("keydown", callbacks.handleEscapeClose);
     const previousBtn = document.createElement("button");
     previousBtn.classList.add("previous-btn");
     previousBtn.setAttribute("aria-label", "Image précédente");
     previousBtn.setAttribute("tabindex", "0");
     previousBtn.innerText = "<";
-    previousBtn.addEventListener("click", function () {
-        removeLighboxContent(media, previousIndex, nextIndex);
+    callbacks.handlePrevious = () => {
+        removeLighboxContent();
         displayLightbox(media, previousIndex);
-    });
-    // previousBtn.addEventListener("keydown", function (event) {
-    //     if (event.key === "Enter") {
-    //         event.preventDefault();
-    //         removeLighboxContent(media, previousIndex, nextIndex);
-    //         displayLightbox(media, previousIndex);
-    //     }
-    // });
+    };
+    previousBtn.addEventListener("click", callbacks.handlePrevious);
     const nextBtn = document.createElement("button");
     nextBtn.classList.add("next-btn");
     nextBtn.setAttribute("aria-label", "Image suivante");
     nextBtn.setAttribute("tabindex", "0");
     nextBtn.innerText = ">";
-    nextBtn.addEventListener("click", function () {
-        removeLighboxContent(media, previousIndex, nextIndex);
+    callbacks.handleNext = () => {
+        removeLighboxContent();
         displayLightbox(media, nextIndex);
-    });
-    // nextBtn.addEventListener("keydown", function (event) {
-    //     if (event.key === "Enter") {
-    //         event.preventDefault();
-    //         removeLighboxContent(media, previousIndex, nextIndex);
-    //         displayLightbox(media, nextIndex);
-    //     }
-    // });
-    document.addEventListener("keydown", function (event) {
+    };
+    nextBtn.addEventListener("click", callbacks.handleNext);
+    document.removeEventListener("keydown", callbacks.handleArrowLeft);
+    document.removeEventListener("keydown", callbacks.handleArrowRight);
+    callbacks.handleArrowLeft = (event) => {
         if (event.key === "ArrowLeft") {
-            removeLighboxContent(media, previousIndex, nextIndex);
+            removeLighboxContent();
             displayLightbox(media, previousIndex);
         }
-    });
-    document.addEventListener("keydown", function (event) {
+    };
+    callbacks.handleArrowRight = (event) => {
         if (event.key === "ArrowRight") {
-            removeLighboxContent(media, previousIndex, nextIndex);
+            removeLighboxContent();
             displayLightbox(media, nextIndex);
         }
-    });
+    };
+    document.addEventListener("keydown", callbacks.handleArrowLeft);
+    document.addEventListener("keydown", callbacks.handleArrowRight);
 
     if (media[index].image) {
         const image = document.createElement("img");
@@ -94,57 +91,24 @@ export function displayLightbox(media, index) {
     nextBtn.focus();
 }
 
-function removeLighboxContent(media, previousIndex, nextIndex) {
+function removeLighboxContent() {
     const previousBtn = document.querySelector(".previous-btn");
     const nextBtn = document.querySelector(".next-btn");
     lightboxBackground.removeEventListener("click", closeLightbox);
     closeLightboxBtn.removeEventListener("click", closeLightbox);
-    closeLightboxBtn.removeEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-            closeLightbox();
-        }
-    });
-    previousBtn.removeEventListener("click", function () {
-        removeLighboxContent(media, previousIndex, nextIndex);
-        displayLightbox(media, previousIndex);
-    });
-    nextBtn.removeEventListener("click", function () {
-        removeLighboxContent(media, previousIndex, nextIndex);
-        displayLightbox(media, nextIndex);
-    });
+    closeLightboxBtn.removeEventListener("keydown", callbacks.handleClose);
+    previousBtn.removeEventListener("click", callbacks.handlePrevious);
+    nextBtn.removeEventListener("click", callbacks.handleNext);
     lightboxContent.innerHTML = "";
 }
 
-export function closeLightbox(media, previousIndex, nextIndex) {
-    const previousBtn = document.querySelector(".previous-btn");
-    const nextBtn = document.querySelector(".next-btn");
+export function closeLightbox() {
     lightBox.style.display = "none";
     lightboxBackground.removeEventListener("click", closeLightbox);
     closeLightboxBtn.removeEventListener("click", closeLightbox);
-    closeLightboxBtn.removeEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-            closeLightbox();
-        }
-    });
-    previousBtn.removeEventListener("click", () => {
-        removeLighboxContent();
-        displayLightbox(media, previousIndex);
-    });
-    nextBtn.removeEventListener("click", () => {
-        removeLighboxContent();
-        displayLightbox(media, nextIndex);
-    });
+    closeLightboxBtn.removeEventListener("keydown", callbacks.handleClose);
     lightboxContent.innerHTML = "";
 
     mainContent.setAttribute("aria-hidden", "false");
     lightBox.setAttribute("aria-hidden", "true");
-
-    // modalBackground.removeEventListener("click", closeModal);
-    // close.removeEventListener("click", closeModal);
-    // close.removeEventListener("keydown", function (event) {
-    //     if (event.key === "Enter") {
-    //         closeModal();
-    //     }
-    // });
-    // form.removeEventListener("submit", submitForm);
 }
