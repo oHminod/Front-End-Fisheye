@@ -1,6 +1,7 @@
+import { displayInfoCard } from "../pages/photographer.js";
 import { displayLightbox } from "../utils/lightBox.js";
 
-export function mediaTemplate(media, index, sortedMedia) {
+export function mediaTemplate(media, index, sortedMedia, photographer) {
     const {
         id: mediaId,
         photographerId,
@@ -42,6 +43,13 @@ export function mediaTemplate(media, index, sortedMedia) {
             videoElement.setAttribute("src", `assets/media/${video}`);
             videoElement.setAttribute("alt", title);
             videoElement.setAttribute("poster", posterUrl);
+            videoElement.setAttribute("tabindex", "0");
+            videoElement.setAttribute("aria-label", "Ouvrir la vidéo " + title);
+            videoElement.addEventListener("keydown", function (event) {
+                if (event.key === "Enter") {
+                    displayLightbox(sortedMedia, index);
+                }
+            });
             videoElement.addEventListener("click", () => {
                 displayLightbox(sortedMedia, index);
             });
@@ -53,7 +61,39 @@ export function mediaTemplate(media, index, sortedMedia) {
         const h2 = document.createElement("h2");
         h2.textContent = title;
         const itemLikes = document.createElement("p");
+        const heart = document.createElement("i");
+        heart.setAttribute("class", "fa-regular fa-heart");
+        heart.style.marginLeft = "0.5rem";
+        heart.style.cursor = "pointer";
+        // const selectedFilter =
+        //     document
+        //         .getElementById("selected_option")
+        //         .getAttribute("data-value") || "likes";
+        // const likedArticlesIds = [];
+        heart.addEventListener("click", () => {
+            // console.log("selectedFilter", selectedFilter);
+
+            if (heart.classList.contains("fa-regular")) {
+                heart.classList.replace("fa-regular", "fa");
+                sortedMedia[index].likes += 1;
+                // likedArticlesIds.push(sortedMedia[index].id);
+            } else {
+                heart.classList.replace("fa", "fa-regular");
+                sortedMedia[index].likes -= 1;
+                // likedArticlesIds.pop(sortedMedia[index].id);
+            }
+            // console.log("likedArticlesIds", likedArticlesIds);
+            itemLikes.textContent = sortedMedia[index].likes;
+            itemLikes.appendChild(heart);
+            // if (selectedFilter === "likes") {
+            //     const mediaSection = document.querySelector(".media_section");
+            //     mediaSection.remove();
+            //     displayMediaData(sortedMedia, photographer);
+            // }
+            displayInfoCard(photographer, sortedMedia);
+        });
         itemLikes.textContent = likes;
+        itemLikes.appendChild(heart);
         cartouche.appendChild(h2);
         cartouche.appendChild(itemLikes);
 
