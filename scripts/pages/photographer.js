@@ -36,7 +36,8 @@ export function displayMediaData(media, photographer, filter = "likes") {
             media,
             index,
             sortedMedia,
-            photographer
+            photographer,
+            filter
         );
         const mediaDOM = mediaModel.getMediaCardDOM();
         mediaSection.appendChild(mediaDOM);
@@ -62,8 +63,25 @@ export function displayInfoCard(photographer, media) {
     infoCard.appendChild(priceP);
 }
 
+let photographersData = [];
+let mediaData = [];
+async function globallyFetchData() {
+    if (!photographersData.length || !mediaData.length) {
+        const data = await fetchData();
+        photographersData = data.photographers;
+        mediaData = data.media;
+    }
+}
 async function init() {
-    const { photographers, media } = await fetchData();
+    // if (!photographersData.length || !mediaData.length) {
+    //     const data = await fetchData();
+    //     photographersData = data.photographers;
+    //     mediaData = data.media;
+    // }
+    await globallyFetchData();
+    const photographers = photographersData;
+    const media = mediaData;
+    // const { photographers, media } = await fetchData();
     const searchParams = new URLSearchParams(window.location.search);
     const id = searchParams.get("id");
     const photographer = photographers.find(
@@ -128,7 +146,10 @@ async function selectFilter(option) {
         );
         const mediaSection = document.querySelector(".media_section");
         mediaSection.remove();
-        const { photographers, media } = await fetchData();
+        // const { photographers, media } = await fetchData();
+        await globallyFetchData();
+        const photographers = photographersData;
+        const media = mediaData;
         const searchParams = new URLSearchParams(window.location.search);
         const id = searchParams.get("id");
         const photographer = photographers.find(

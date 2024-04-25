@@ -1,7 +1,7 @@
-import { displayInfoCard } from "../pages/photographer.js";
+import { displayInfoCard, displayMediaData } from "../pages/photographer.js";
 import { displayLightbox } from "../utils/lightBox.js";
 
-export function mediaTemplate(media, index, sortedMedia, photographer) {
+export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
     const {
         id: mediaId,
         photographerId,
@@ -110,18 +110,40 @@ export function mediaTemplate(media, index, sortedMedia, photographer) {
             if (heart.classList.contains("fa-regular")) {
                 heart.classList.replace("fa-regular", "fa");
                 sortedMedia[index].likes += 1;
+                sortedMedia[index].liked = true;
             } else {
                 heart.classList.replace("fa", "fa-regular");
                 sortedMedia[index].likes -= 1;
+                sortedMedia[index].liked = false;
             }
             itemLikes.textContent = sortedMedia[index].likes;
+
+            const anotherItemHasAlmostTheSameLikes = sortedMedia.some(
+                (media) => {
+                    if (media.photographerId === photographer.id) {
+                        return (
+                            Math.abs(media.likes - sortedMedia[index].likes) <=
+                                1 && media.id !== sortedMedia[index].id
+                        );
+                    }
+                }
+            );
+            if (filter === "likes" && anotherItemHasAlmostTheSameLikes) {
+                const mediaSection = document.querySelector(".media_section");
+                mediaSection.remove();
+                displayMediaData(sortedMedia, photographer, filter);
+            }
         }
 
         const itemLikes = document.createElement("p");
         itemLikes.textContent = likes;
         const heart = document.createElement("p");
         heart.style.marginLeft = "0.5rem";
-        heart.setAttribute("class", "fa-regular fa-heart");
+        if (media.liked) {
+            heart.setAttribute("class", "fa fa-heart");
+        } else {
+            heart.setAttribute("class", "fa-regular fa-heart");
+        }
         const likesWrapper = document.createElement("div");
         likesWrapper.classList.add("likes");
         likesWrapper.setAttribute("tabindex", "0");
