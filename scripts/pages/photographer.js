@@ -63,25 +63,17 @@ export function displayInfoCard(photographer, media) {
     infoCard.appendChild(priceP);
 }
 
-let photographersData = [];
-let mediaData = [];
+const photographers = [];
+const media = [];
 async function globallyFetchData() {
-    if (!photographersData.length || !mediaData.length) {
+    if (!photographers.length || !media.length) {
         const data = await fetchData();
-        photographersData = data.photographers;
-        mediaData = data.media;
+        photographers.push(...data.photographers);
+        media.push(...data.media);
     }
 }
 async function init() {
-    // if (!photographersData.length || !mediaData.length) {
-    //     const data = await fetchData();
-    //     photographersData = data.photographers;
-    //     mediaData = data.media;
-    // }
     await globallyFetchData();
-    const photographers = photographersData;
-    const media = mediaData;
-    // const { photographers, media } = await fetchData();
     const searchParams = new URLSearchParams(window.location.search);
     const id = searchParams.get("id");
     const photographer = photographers.find(
@@ -146,10 +138,7 @@ async function selectFilter(option) {
         );
         const mediaSection = document.querySelector(".media_section");
         mediaSection.remove();
-        // const { photographers, media } = await fetchData();
         await globallyFetchData();
-        const photographers = photographersData;
-        const media = mediaData;
         const searchParams = new URLSearchParams(window.location.search);
         const id = searchParams.get("id");
         const photographer = photographers.find(
