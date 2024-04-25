@@ -246,12 +246,17 @@ form textarea {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 5px;
 }
 
 .cartouche h2,
 .cartouche p {
     color: #901c1c;
     margin: 0;
+}
+.likes {
+    display: flex;
+    align-items: center;
 }
 
 .filter-result {

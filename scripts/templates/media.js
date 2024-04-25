@@ -115,22 +115,25 @@ export function mediaTemplate(media, index, sortedMedia, photographer) {
                 sortedMedia[index].likes -= 1;
             }
             itemLikes.textContent = sortedMedia[index].likes;
-            itemLikes.appendChild(heart);
         }
 
         const itemLikes = document.createElement("p");
-        const heart = document.createElement("span");
-        heart.setAttribute("class", "fa-regular fa-heart");
-        itemLikes.setAttribute("tabindex", "0");
-        itemLikes.setAttribute("aria-label", "liker l'image " + title);
-        heart.style.marginLeft = "0.5rem";
-        itemLikes.style.cursor = "pointer";
-        itemLikes.addEventListener("click", handleLikesClick);
-        itemLikes.addEventListener("keydown", handleLikesKeydown);
         itemLikes.textContent = likes;
-        itemLikes.appendChild(heart);
+        const heart = document.createElement("p");
+        heart.style.marginLeft = "0.5rem";
+        heart.setAttribute("class", "fa-regular fa-heart");
+        const likesWrapper = document.createElement("div");
+        likesWrapper.classList.add("likes");
+        likesWrapper.setAttribute("tabindex", "0");
+        likesWrapper.setAttribute("aria-label", "liker l'image " + title);
+        likesWrapper.style.cursor = "pointer";
+        likesWrapper.addEventListener("click", handleLikesClick);
+        likesWrapper.addEventListener("keydown", handleLikesKeydown);
 
-        return itemLikes;
+        likesWrapper.appendChild(itemLikes);
+        likesWrapper.appendChild(heart);
+
+        return likesWrapper;
     }
 
     return {
