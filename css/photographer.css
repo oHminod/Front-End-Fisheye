@@ -313,6 +313,7 @@ form textarea {
     cursor: pointer;
     border-radius: 5px;
     width: 180px;
+    border: none;
 }
 
 .arrow {

@@ -142,9 +142,9 @@ async function selectFilter(option) {
             photographer,
             option.getAttribute("data-value")
         );
-        mainContent.setAttribute("aria-hidden", "false");
-        customOptions.setAttribute("aria-hidden", "true");
     }
 
+    mainContent.setAttribute("aria-hidden", "false");
+    customOptions.setAttribute("aria-hidden", "true");
     customOptions.classList.remove("flex");
 }
