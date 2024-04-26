@@ -25,7 +25,7 @@ export function displayModal(name) {
     modal.setAttribute("aria-hidden", "false");
 
     callbacks.handleClose = (event) => {
-        if (event.key === "Enter") {
+        if (event.key === "Enter" || event.key === " ") {
             closeModal();
         }
     };

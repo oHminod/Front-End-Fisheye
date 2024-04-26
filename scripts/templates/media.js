@@ -1,4 +1,8 @@
 import { displayInfoCard, displayMediaData } from "../pages/photographer.js";
+import {
+    getPhotographerDOMElements,
+    setClickAndEnterListener,
+} from "../utils/DOMUtils.js";
 import { displayLightbox } from "../utils/lightBox.js";
 
 export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
@@ -12,8 +16,7 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
         price: mediaPrice,
         title,
     } = media;
-    const mainContent = document.getElementById("main");
-    const lightBox = document.getElementById("lightbox");
+    const { mainSection, lightBox } = getPhotographerDOMElements();
 
     function getMediaCardDOM() {
         const article = createArticle();
@@ -48,8 +51,7 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
         img.setAttribute("alt", title);
         img.setAttribute("tabindex", "0");
         img.setAttribute("aria-label", "Ouvrir l'image " + title);
-        img.addEventListener("keydown", handleMediaKeydown);
-        img.addEventListener("click", handleMediaClick);
+        setClickAndEnterListener(img, mediaAction);
         return img;
     }
 
@@ -61,23 +63,13 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
         videoElement.setAttribute("poster", posterUrl);
         videoElement.setAttribute("tabindex", "0");
         videoElement.setAttribute("aria-label", "Ouvrir la vidéo " + title);
-        videoElement.addEventListener("keydown", handleMediaKeydown);
-        videoElement.addEventListener("click", handleMediaClick);
+        setClickAndEnterListener(videoElement, mediaAction);
         return videoElement;
     }
 
-    function handleMediaKeydown(event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            displayLightbox(sortedMedia, index);
-            mainContent.setAttribute("aria-hidden", "true");
-            lightBox.setAttribute("aria-hidden", "false");
-        }
-    }
-
-    function handleMediaClick() {
+    function mediaAction() {
         displayLightbox(sortedMedia, index);
-        mainContent.setAttribute("aria-hidden", "true");
+        mainSection.setAttribute("aria-hidden", "true");
         lightBox.setAttribute("aria-hidden", "false");
     }
 
@@ -93,20 +85,21 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
     }
 
     function createItemLikes() {
-        function handleLikesClick() {
+        function handleLikes() {
             toggleLike();
             displayInfoCard(photographer, sortedMedia);
         }
 
-        function handleLikesKeydown(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                toggleLike();
-                displayInfoCard(photographer, sortedMedia);
-            }
-        }
-
         function toggleLike() {
+            const anotherItemHasTheSameLikes = sortedMedia.some((media) => {
+                if (media.photographerId === photographer.id) {
+                    return (
+                        media.likes === sortedMedia[index].likes &&
+                        media.id !== sortedMedia[index].id
+                    );
+                }
+            });
+
             if (heart.classList.contains("fa-regular")) {
                 heart.classList.replace("fa-regular", "fa");
                 sortedMedia[index].likes += 1;
@@ -118,17 +111,7 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
             }
             itemLikes.textContent = sortedMedia[index].likes;
 
-            const anotherItemHasAlmostTheSameLikes = sortedMedia.some(
-                (media) => {
-                    if (media.photographerId === photographer.id) {
-                        return (
-                            Math.abs(media.likes - sortedMedia[index].likes) <=
-                                1 && media.id !== sortedMedia[index].id
-                        );
-                    }
-                }
-            );
-            if (filter === "likes" && anotherItemHasAlmostTheSameLikes) {
+            if (filter === "likes" && anotherItemHasTheSameLikes) {
                 const mediaSection = document.querySelector(".media_section");
                 mediaSection.remove();
                 displayMediaData(sortedMedia, photographer, filter);
@@ -149,8 +132,7 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
         likesWrapper.setAttribute("tabindex", "0");
         likesWrapper.setAttribute("aria-label", "liker l'image " + title);
         likesWrapper.style.cursor = "pointer";
-        likesWrapper.addEventListener("click", handleLikesClick);
-        likesWrapper.addEventListener("keydown", handleLikesKeydown);
+        setClickAndEnterListener(likesWrapper, handleLikes);
 
         likesWrapper.appendChild(itemLikes);
         likesWrapper.appendChild(heart);

@@ -1,9 +1,13 @@
 import { mediaTemplate } from "../templates/media.js";
 import { photographerTemplate } from "../templates/photographer.js";
+import {
+    getPhotographerDOMElements,
+    setClickAndEnterListener,
+} from "../utils/DOMUtils.js";
 import { fetchData } from "./index.js";
 
 function displayPhotographerData(photographer) {
-    const photographerHeader = document.querySelector(".photograph-header");
+    const { photographerHeader } = getPhotographerDOMElements();
     const photographerInfoModel = photographerTemplate(photographer);
     const photographerInfoDOM = photographerInfoModel.getPhotographerInfoDOM();
     photographerHeader.appendChild(photographerInfoDOM);
@@ -25,7 +29,7 @@ function sortMedia(filter = "id", media) {
 }
 
 export function displayMediaData(media, photographer, filter = "likes") {
-    const mainSection = document.getElementById("main");
+    const { mainSection } = getPhotographerDOMElements();
     const mediaSection = document.createElement("section");
     mediaSection.setAttribute("class", "media_section");
 
@@ -47,7 +51,7 @@ export function displayMediaData(media, photographer, filter = "likes") {
 }
 
 export function displayInfoCard(photographer, media) {
-    const infoCard = document.getElementById("info_card");
+    const { infoCard } = getPhotographerDOMElements();
     infoCard.innerHTML = "";
     const totalLikes = media.reduce((acc, media) => acc + media.likes, 0);
     const price = photographer.price;
@@ -90,37 +94,33 @@ async function init() {
 
 init();
 
-const customOptions = document.getElementById("custom_options");
-const mainContent = document.getElementById("main");
-const firsOption = document.querySelector(".first-option");
-document
-    .querySelector(".custom-select-trigger")
-    .addEventListener("click", function () {
+const callbacks = {};
+const { customOptions, mainContent } = getPhotographerDOMElements();
+setClickAndEnterListener(
+    document.querySelector(".custom-select-trigger"),
+    () => {
         mainContent.setAttribute("aria-hidden", "true");
         customOptions.setAttribute("aria-hidden", "false");
         customOptions.classList.add("flex");
-    });
-document
-    .querySelector(".custom-select-trigger")
-    .addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-            mainContent.setAttribute("aria-hidden", "true");
-            customOptions.setAttribute("aria-hidden", "false");
-            customOptions.classList.add("flex");
-            firsOption.focus();
-        }
-    });
+        callbacks.handleEscClose = (event) => {
+            if (event.key === "Escape") {
+                mainContent.setAttribute("aria-hidden", "false");
+                customOptions.setAttribute("aria-hidden", "true");
+                customOptions.classList.remove("flex");
+                document.removeEventListener(
+                    "keydown",
+                    callbacks.handleEscClose
+                );
+            }
+        };
+
+        document.addEventListener("keydown", callbacks.handleEscClose);
+    }
+);
 
 document.querySelectorAll(".custom-option").forEach((option) => {
-    option.addEventListener("click", async () => {
+    setClickAndEnterListener(option, async () => {
         await selectFilter(option);
-    });
-});
-document.querySelectorAll(".custom-option").forEach((option) => {
-    option.addEventListener("keydown", async (event) => {
-        if (event.key === "Enter") {
-            await selectFilter(option);
-        }
     });
 });
 
@@ -130,13 +130,13 @@ async function selectFilter(option) {
             .querySelector(".custom-option.selected")
             .classList.remove("selected");
         option.classList.add("selected");
-        const selectedOption = document.getElementById("selected_option");
+
+        const { selectedOption, mediaSection } = getPhotographerDOMElements();
         selectedOption.textContent = option.textContent;
         selectedOption.setAttribute(
             "data-value",
             option.getAttribute("data-value")
         );
-        const mediaSection = document.querySelector(".media_section");
         mediaSection.remove();
         await globallyFetchData();
         const searchParams = new URLSearchParams(window.location.search);

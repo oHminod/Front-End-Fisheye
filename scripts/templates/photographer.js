@@ -1,4 +1,8 @@
 import { displayModal } from "../utils/contactForm.js";
+import {
+    getPhotographerDOMElements,
+    setClickAndEnterListener,
+} from "../utils/DOMUtils.js";
 
 export function photographerTemplate(photographer) {
     const { name, portrait, id, city, country, tagline, price } = photographer;
@@ -40,18 +44,18 @@ export function photographerTemplate(photographer) {
         const p = document.createElement("p");
         p.textContent = tagline;
 
-        const firstName = document.getElementById("firstname");
+        const { mainSection, firstName, contactModal } =
+            getPhotographerDOMElements();
+
         const contactButton = document.createElement("button");
-        const mainContent = document.getElementById("main");
-        const contactModal = document.getElementById("contact_modal");
         contactButton.textContent = `Contactez ${name}`;
         contactButton.setAttribute("title", `Contactez ${name}`);
         contactButton.setAttribute("aria-label", `Contactez ${name}`);
         contactButton.setAttribute("tabindex", "0");
         contactButton.setAttribute("class", "contact_button");
-        contactButton.addEventListener("click", () => {
+        setClickAndEnterListener(contactButton, () => {
             displayModal(name);
-            mainContent.setAttribute("aria-hidden", "true");
+            mainSection.setAttribute("aria-hidden", "true");
             contactModal.setAttribute("aria-hidden", "false");
             firstName.focus();
         });

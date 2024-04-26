@@ -40,7 +40,8 @@ function setupCloseButton() {
     closeLightboxBtn.addEventListener("click", closeLightbox);
     closeLightboxBtn.setAttribute("aria-label", "Fermer la lightbox");
     callbacks.handleClose = (event) => {
-        if (event.key === "Enter") {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
             closeLightbox();
         }
     };
@@ -124,7 +125,7 @@ function displayVideo(mediaItem) {
         "poster",
         `assets/media/poster/${mediaItem.video.slice(0, -4)}.jpg`
     );
-    video.setAttribute("alt", mediaItem.title);
+    video.setAttribute("title", mediaItem.title);
     video.setAttribute("controls", true);
     const videoTitle = document.createElement("h2");
     videoTitle.textContent = mediaItem.title;
