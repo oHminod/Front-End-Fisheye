@@ -21,6 +21,8 @@ export function getPhotographerDOMElements() {
     const submit = document.getElementById("submit");
     const photographerName = document.getElementById("photographer_name");
 
+    const logoLink = document.getElementById("logo_link");
+
     return {
         photographerHeader,
         mainSection,
@@ -42,6 +44,7 @@ export function getPhotographerDOMElements() {
         message,
         submit,
         photographerName,
+        logoLink,
     };
 }
 
@@ -55,6 +58,7 @@ export function setClickAndEnterListener(element, callback) {
     });
 }
 
+let logoLinkHref;
 export function trapFocus(
     callbacks,
     preservedId = null,
@@ -81,6 +85,9 @@ export function trapFocus(
         }
     };
     document.addEventListener("keydown", callbacks.handleTabKey);
+    const { logoLink } = getPhotographerDOMElements();
+    logoLinkHref = logoLink.getAttribute("href");
+    logoLink.removeAttribute("href");
     focusableElements.forEach((element) => {
         if (
             (preservedId && element.id !== preservedId) ||
@@ -95,6 +102,8 @@ export function untrapFocus(callbacks, lastFocusedElement) {
     document.removeEventListener("keydown", callbacks.handleTabKey);
     const focusableElements = document.querySelectorAll("*[tabindex]");
     focusableElements.forEach((element) => (element.tabIndex = 0));
+    const { logoLink } = getPhotographerDOMElements();
+    logoLink.setAttribute("href", logoLinkHref);
     lastFocusedElement.focus();
     lastFocusedElement = null;
 }
