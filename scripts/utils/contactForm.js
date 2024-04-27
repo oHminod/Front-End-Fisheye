@@ -17,21 +17,9 @@ export function displayModal(name) {
     if (!lastFocusedElement) {
         lastFocusedElement = document.activeElement;
     }
-    trapFocus(callbacks, "close-modal-btn");
+    trapFocus("preserve-contact-element");
     contactModal.style.display = "flex";
-    const { firstname, lastname, email, message, submit, photographerName } =
-        getPhotographerDOMElements();
-    const elementsToRestoreFocus = [
-        firstname,
-        lastname,
-        email,
-        message,
-        submit,
-        closeModalBtn,
-    ];
-    elementsToRestoreFocus.forEach((element) => {
-        element.setAttribute("tabindex", "0");
-    });
+
     closeModalBtn.setAttribute("aria-label", "Fermer la fenêtre modale");
     mainContent.setAttribute("aria-hidden", "true");
     contactModal.setAttribute("aria-hidden", "false");
@@ -48,6 +36,7 @@ export function displayModal(name) {
         }
     };
 
+    const { photographerName } = getPhotographerDOMElements();
     photographerName.textContent = name;
 
     modalBackground.addEventListener("click", closeModal);
@@ -67,7 +56,7 @@ export function closeModal() {
     mainContent.setAttribute("aria-hidden", "false");
     contactModal.setAttribute("aria-hidden", "true");
 
-    untrapFocus(callbacks, lastFocusedElement);
+    untrapFocus(lastFocusedElement);
 }
 
 function submitForm(e) {

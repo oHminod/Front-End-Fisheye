@@ -118,7 +118,7 @@ setClickAndEnterListener(
             ".custom-option.selected"
         );
         lastFocusedElement = document.activeElement;
-        trapFocus(callbacks, null, "custom-option");
+        trapFocus("custom-option");
 
         mainContent.setAttribute("aria-hidden", "true");
         customOptions.setAttribute("aria-hidden", "false");
@@ -134,7 +134,7 @@ setClickAndEnterListener(
                     "keydown",
                     callbacks.handleEscClose
                 );
-                untrapFocus(callbacks, lastFocusedElement);
+                untrapFocus(lastFocusedElement);
             }
         };
 
@@ -156,9 +156,6 @@ async function selectFilter(option) {
         );
         previouslySelectedOption.classList.remove("selected");
         previouslySelectedOption.setAttribute("aria-selected", "false");
-        // option.parentNode
-        //     .querySelector(".custom-option.selected")
-        //     .setAttribute("aria-selected", "false");
         option.classList.add("selected");
         option.setAttribute("aria-selected", "true");
 
@@ -185,7 +182,7 @@ async function selectFilter(option) {
         );
     }
 
-    untrapFocus(callbacks, lastFocusedElement);
+    untrapFocus(lastFocusedElement);
 
     mainContent.setAttribute("aria-hidden", "false");
     customOptions.setAttribute("aria-hidden", "true");

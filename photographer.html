@@ -17,9 +17,7 @@
       </a>
     </header>
     <main id="main" aria-hidden="false">
-      <div class="photograph-header">
-        <!-- <button class="contact_button" onclick="displayModal()">Contactez-moi</button> -->
-      </div>
+      <div class="photograph-header"></div>
       <div class="filter-result">
         <h2 id="filter_label">Trier par </h2>
         <div class="custom-select-filter" id="filter_select">
@@ -38,15 +36,6 @@
           </div>
         </div>
       </div>
-        <!-- <div class="select-container">
-          <select name="filter-media" id="filter-media">
-            <option value="popularite">Popularité</option>
-            <option value="date">Date</option>
-            <option value="titre">Titre</option>
-          </select>
-          <i class="fa-solid fa-chevron-down"></i>
-        </div> -->
-      </div>
     </main>
     <div id="contact_modal" aria-hidden="true">
       <div id="modal_background"></div>
@@ -56,26 +45,26 @@
             <h2>Contactez-moi</h2>
             <h2 id="photographer_name"></h2>
           </div>
-          <img src="assets/icons/close.svg" id="close-modal-btn" alt="Fermeture de la modale de contact" />
+          <img src="assets/icons/close.svg" id="close-modal-btn" class="preserve-contact-element" alt="Fermeture de la modale de contact" tabindex="0" />
         </header>
 				<form id="modal_form">
 					<div>
 						<label for="firstname">Prénom</label>
-						<input type="text" name="firstname" id="firstname" />
+						<input type="text" name="firstname" id="firstname" tabindex="0" class="preserve-contact-element" />
 					</div>
           <div>
             <label for="lastname">Nom</label>
-            <input type="text" name="lastname" id="lastname" />
+            <input type="text" name="lastname" id="lastname" tabindex="0" class="preserve-contact-element" />
           </div>
           <div>
             <label for="email">Email</label>
-            <input type="email" name="email" id="email" />
+            <input type="email" name="email" id="email" tabindex="0" class="preserve-contact-element" />
           </div>
           <div>
             <label for="message">Votre message</label>
-            <textarea name="message" id="message"></textarea>
+            <textarea name="message" id="message" tabindex="0" class="preserve-contact-element"></textarea>
           </div>
-          <button id="submit" class="contact_button" aria-label="Envoyer le formulaire de contact">Envoyer</button>
+          <button id="submit" class="contact_button preserve-contact-element" aria-label="Envoyer le formulaire de contact" tabindex="0">Envoyer</button>
 				</form>
 			</div>
 		</div>
@@ -83,7 +72,7 @@
     <div id="lightbox" aria-hidden="true">
       <div id="lightbox_background"></div>
       <div id="lightbox_content"></div>
-      <div id="close-lightbox-btn" tabindex="0"><span class="fa fa-times"></span></div>
+      <div id="close-lightbox-btn" class="preserve-lightbox-element" tabindex="0"><span class="fa fa-times"></span></div>
     </div>
     <script type="module" src="scripts/pages/photographer.js"></script>
     <script type="module" src="scripts/utils/contactForm.js"></script>

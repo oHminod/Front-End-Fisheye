@@ -49,13 +49,24 @@ export function getPhotographerDOMElements() {
 }
 
 export function setClickAndEnterListener(element, callback) {
-    element.addEventListener("click", callback);
-    element.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
+    const keydownCallback = (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
             callback();
         }
-    });
+    };
+    element.addEventListener("click", callback);
+    element.addEventListener("keydown", keydownCallback);
+}
+export function removeClickAndEnterListener(element, callback) {
+    const keydownCallback = (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            callback();
+        }
+    };
+    element.removeEventListener("click", callback);
+    element.removeEventListener("keydown", keydownCallback);
 }
 
 const isLocal =
@@ -63,50 +74,50 @@ const isLocal =
     window.location.hostname === "127.0.0.1";
 const logoLinkHref = isLocal ? "/" : "/Front-End-Fisheye/";
 
-export function trapFocus(
-    callbacks,
-    preservedId = null,
-    preservedClass = null
-) {
-    const focusableElements = document.querySelectorAll("*[tabindex]");
+function handleTabKey(e) {
+    const tabIndexElements = document.querySelectorAll("*[tabindex]");
+    const focusableElements = Array.from(tabIndexElements).filter(
+        (element) => element.tabIndex >= 0
+    );
     const firstFocusableElement = focusableElements[0];
     const lastFocusableElement =
         focusableElements[focusableElements.length - 1];
-
-    callbacks.handleTabKey = (e) => {
-        if (e.key === "Tab" || e.keyCode === 9) {
-            if (e.shiftKey) {
-                if (document.activeElement === firstFocusableElement) {
-                    lastFocusableElement.focus();
-                    e.preventDefault();
-                }
-            } else {
-                if (document.activeElement === lastFocusableElement) {
-                    firstFocusableElement.focus();
-                    e.preventDefault();
-                }
+    if (e.key === "Tab" || e.keyCode === 9) {
+        if (e.shiftKey) {
+            if (document.activeElement === firstFocusableElement) {
+                lastFocusableElement.focus();
+                e.preventDefault();
+            }
+        } else {
+            if (document.activeElement === lastFocusableElement) {
+                firstFocusableElement.focus();
+                e.preventDefault();
             }
         }
-    };
-    document.addEventListener("keydown", callbacks.handleTabKey);
+    }
+}
+export function trapFocus(preservedClass = null) {
+    const focusableElements = document.querySelectorAll("*[tabindex]");
     const { logoLink } = getPhotographerDOMElements();
+
     logoLink.removeAttribute("href");
     focusableElements.forEach((element) => {
-        if (
-            (preservedId && element.id !== preservedId) ||
-            (preservedClass && !element.classList.contains(preservedClass))
-        ) {
+        if (preservedClass && !element.classList.contains(preservedClass)) {
             element.tabIndex = -1;
         }
     });
+    document.addEventListener("keydown", handleTabKey);
 }
 
-export function untrapFocus(callbacks, lastFocusedElement) {
-    document.removeEventListener("keydown", callbacks.handleTabKey);
+export function untrapFocus(lastFocusedElement = null) {
     const focusableElements = document.querySelectorAll("*[tabindex]");
-    focusableElements.forEach((element) => (element.tabIndex = 0));
     const { logoLink } = getPhotographerDOMElements();
     logoLink.setAttribute("href", logoLinkHref);
-    lastFocusedElement.focus();
-    lastFocusedElement = null;
+    focusableElements.forEach((element) => (element.tabIndex = 0));
+    document.removeEventListener("keydown", handleTabKey);
+
+    if (lastFocusedElement) {
+        lastFocusedElement.focus();
+        lastFocusedElement = null;
+    }
 }

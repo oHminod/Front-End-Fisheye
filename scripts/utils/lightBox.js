@@ -1,4 +1,9 @@
-import { trapFocus, untrapFocus } from "./DOMUtils.js";
+import {
+    trapFocus,
+    untrapFocus,
+    setClickAndEnterListener,
+    removeClickAndEnterListener,
+} from "./DOMUtils.js";
 
 const lightBox = document.getElementById("lightbox");
 const lightboxBackground = document.getElementById("lightbox_background");
@@ -9,6 +14,7 @@ const mainContent = document.getElementById("main");
 const callbacks = {};
 
 let lastFocusedElement;
+let lastFocusedNavBtn = null;
 
 export function displayLightbox(media, index) {
     const previousIndex = getPreviousIndex(index, media.length);
@@ -17,7 +23,7 @@ export function displayLightbox(media, index) {
     if (!lastFocusedElement) {
         lastFocusedElement = document.activeElement;
     }
-    trapFocus(callbacks, "close-lightbox-btn");
+    trapFocus("preserve-lightbox-element");
     setupLightbox();
     setupCloseButton();
     setupPreviousButton(media, previousIndex);
@@ -58,23 +64,29 @@ function setupCloseButton() {
 
 function setupPreviousButton(media, previousIndex) {
     const previousBtn = createButton("previous-btn", "Image précédente", "<");
+    const isPreviousBtnFocused = lastFocusedNavBtn === "previousBtn";
     callbacks.handlePrevious = () => {
+        lastFocusedNavBtn = "previousBtn";
         removeLighboxContent();
         displayLightbox(media, previousIndex);
     };
-    previousBtn.addEventListener("click", callbacks.handlePrevious);
+    setClickAndEnterListener(previousBtn, callbacks.handlePrevious);
     lightboxContent.appendChild(previousBtn);
+    isPreviousBtnFocused && previousBtn.focus();
 }
 
 function setupNextButton(media, nextIndex) {
     const nextBtn = createButton("next-btn", "Image suivante", ">");
+    const isNextBtnFocused = lastFocusedNavBtn === "nextBtn";
     callbacks.handleNext = () => {
+        lastFocusedNavBtn = "nextBtn";
         removeLighboxContent();
         displayLightbox(media, nextIndex);
     };
-    nextBtn.addEventListener("click", callbacks.handleNext);
+    setClickAndEnterListener(nextBtn, callbacks.handleNext);
     lightboxContent.appendChild(nextBtn);
-    nextBtn.focus();
+    !lastFocusedNavBtn && nextBtn.focus();
+    isNextBtnFocused && nextBtn.focus();
 }
 
 function setupKeyboardNavigation(media, previousIndex, nextIndex) {
@@ -84,6 +96,7 @@ function setupKeyboardNavigation(media, previousIndex, nextIndex) {
 
     callbacks.handleArrowLeft = (event) => {
         if (event.key === "ArrowLeft") {
+            lastFocusedNavBtn = "previousBtn";
             removeLighboxContent();
             displayLightbox(media, previousIndex);
         }
@@ -91,6 +104,7 @@ function setupKeyboardNavigation(media, previousIndex, nextIndex) {
 
     callbacks.handleArrowRight = (event) => {
         if (event.key === "ArrowRight") {
+            lastFocusedNavBtn = "nextBtn";
             removeLighboxContent();
             displayLightbox(media, nextIndex);
         }
@@ -147,12 +161,13 @@ function removeLighboxContent() {
     lightboxBackground.removeEventListener("click", closeLightbox);
     closeLightboxBtn.removeEventListener("click", closeLightbox);
     closeLightboxBtn.removeEventListener("keydown", callbacks.handleClose);
-    previousBtn.removeEventListener("click", callbacks.handlePrevious);
-    nextBtn.removeEventListener("click", callbacks.handleNext);
+    removeClickAndEnterListener(previousBtn, callbacks.handlePrevious);
+    removeClickAndEnterListener(nextBtn, callbacks.handleNext);
     lightboxContent.innerHTML = "";
 }
 
 export function closeLightbox() {
+    lastFocusedNavBtn = null;
     lightBox.style.display = "none";
     lightboxBackground.removeEventListener("click", closeLightbox);
     closeLightboxBtn.removeEventListener("click", closeLightbox);
@@ -161,5 +176,5 @@ export function closeLightbox() {
 
     mainContent.setAttribute("aria-hidden", "false");
     lightBox.setAttribute("aria-hidden", "true");
-    untrapFocus(callbacks, lastFocusedElement);
+    untrapFocus(lastFocusedElement);
 }
