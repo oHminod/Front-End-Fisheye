@@ -58,7 +58,11 @@ export function setClickAndEnterListener(element, callback) {
     });
 }
 
-let logoLinkHref;
+const isLocal =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1";
+const logoLinkHref = isLocal ? "/" : "/Front-End-Fisheye/";
+
 export function trapFocus(
     callbacks,
     preservedId = null,
@@ -86,7 +90,6 @@ export function trapFocus(
     };
     document.addEventListener("keydown", callbacks.handleTabKey);
     const { logoLink } = getPhotographerDOMElements();
-    logoLinkHref = logoLink.getAttribute("href");
     logoLink.removeAttribute("href");
     focusableElements.forEach((element) => {
         if (

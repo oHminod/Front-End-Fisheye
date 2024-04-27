@@ -25,7 +25,18 @@ async function displayData(photographers) {
 
 async function init() {
     const { photographers } = await getPhotographers();
+
     displayData(photographers);
+
+    const aElements = document.querySelectorAll("a");
+    aElements.forEach((aElement) => {
+        aElement.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                aElement.click();
+            }
+        });
+    });
 }
 
 init();

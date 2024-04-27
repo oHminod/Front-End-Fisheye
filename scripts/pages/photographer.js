@@ -8,6 +8,35 @@ import {
 } from "../utils/DOMUtils.js";
 import { fetchData } from "./index.js";
 
+const photographers = [];
+const media = [];
+
+async function init() {
+    await globallyFetchData();
+    const searchParams = new URLSearchParams(window.location.search);
+    const id = searchParams.get("id");
+    const photographer = photographers.find(
+        (photographer) => photographer.id == id
+    );
+    const photographerMedia = media.filter(
+        (media) => media.photographerId == id
+    );
+
+    displayPhotographerData(photographer);
+    displayMediaData(photographerMedia, photographer);
+    displayInfoCard(photographer, photographerMedia);
+
+    const { logoLink } = getPhotographerDOMElements();
+    logoLink.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            logoLink.click();
+        }
+    });
+}
+
+init();
+
 function displayPhotographerData(photographer) {
     const { photographerHeader } = getPhotographerDOMElements();
     const photographerInfoModel = photographerTemplate(photographer);
@@ -69,8 +98,6 @@ export function displayInfoCard(photographer, media) {
     infoCard.appendChild(priceP);
 }
 
-const photographers = [];
-const media = [];
 async function globallyFetchData() {
     if (!photographers.length || !media.length) {
         const data = await fetchData();
@@ -78,23 +105,6 @@ async function globallyFetchData() {
         media.push(...data.media);
     }
 }
-async function init() {
-    await globallyFetchData();
-    const searchParams = new URLSearchParams(window.location.search);
-    const id = searchParams.get("id");
-    const photographer = photographers.find(
-        (photographer) => photographer.id == id
-    );
-    const photographerMedia = media.filter(
-        (media) => media.photographerId == id
-    );
-
-    displayPhotographerData(photographer);
-    displayMediaData(photographerMedia, photographer);
-    displayInfoCard(photographer, photographerMedia);
-}
-
-init();
 
 const callbacks = {};
 const { customOptions, optionsTrigger, mainContent } =
@@ -104,17 +114,22 @@ let lastFocusedElement;
 setClickAndEnterListener(
     document.querySelector(".custom-select-trigger"),
     () => {
+        const previouslySelectedOption = customOptions.querySelector(
+            ".custom-option.selected"
+        );
         lastFocusedElement = document.activeElement;
         trapFocus(callbacks, null, "custom-option");
 
         mainContent.setAttribute("aria-hidden", "true");
         customOptions.setAttribute("aria-hidden", "false");
         customOptions.classList.add("flex");
+        optionsTrigger.setAttribute("aria-expanded", "true");
         callbacks.handleEscClose = (event) => {
             if (event.key === "Escape") {
                 mainContent.setAttribute("aria-hidden", "false");
                 customOptions.setAttribute("aria-hidden", "true");
                 customOptions.classList.remove("flex");
+                optionsTrigger.setAttribute("aria-expanded", "false");
                 document.removeEventListener(
                     "keydown",
                     callbacks.handleEscClose
@@ -123,6 +138,7 @@ setClickAndEnterListener(
             }
         };
 
+        previouslySelectedOption.focus();
         document.addEventListener("keydown", callbacks.handleEscClose);
     }
 );
@@ -135,10 +151,16 @@ document.querySelectorAll(".custom-option").forEach((option) => {
 
 async function selectFilter(option) {
     if (!option.classList.contains("selected")) {
-        option.parentNode
-            .querySelector(".custom-option.selected")
-            .classList.remove("selected");
+        const previouslySelectedOption = customOptions.querySelector(
+            ".custom-option.selected"
+        );
+        previouslySelectedOption.classList.remove("selected");
+        previouslySelectedOption.setAttribute("aria-selected", "false");
+        // option.parentNode
+        //     .querySelector(".custom-option.selected")
+        //     .setAttribute("aria-selected", "false");
         option.classList.add("selected");
+        option.setAttribute("aria-selected", "true");
 
         const { selectedOption, mediaSection } = getPhotographerDOMElements();
         selectedOption.textContent = option.textContent;
@@ -168,5 +190,6 @@ async function selectFilter(option) {
     mainContent.setAttribute("aria-hidden", "false");
     customOptions.setAttribute("aria-hidden", "true");
     customOptions.classList.remove("flex");
+    optionsTrigger.setAttribute("aria-expanded", "false");
     optionsTrigger.focus();
 }
