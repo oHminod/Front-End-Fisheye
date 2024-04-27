@@ -1,31 +1,44 @@
-const modal = document.getElementById("contact_modal");
+import {
+    getPhotographerDOMElements,
+    trapFocus,
+    untrapFocus,
+} from "./DOMUtils.js";
+
+const contactModal = document.getElementById("contact_modal");
 const modalBackground = document.getElementById("modal_background");
-const close = document.getElementById("close-modal-btn");
+const closeModalBtn = document.getElementById("close-modal-btn");
 const form = document.getElementById("modal_form");
 const mainContent = document.getElementById("main");
 
 const callbacks = {};
+let lastFocusedElement;
 
 export function displayModal(name) {
-    modal.style.display = "flex";
-    const firstname = document.getElementById("firstname");
-    const lastname = document.getElementById("lastname");
-    const email = document.getElementById("email");
-    const message = document.getElementById("message");
-    const submit = document.getElementById("submit");
-    const photographerName = document.getElementById("photographer_name");
-    firstname.setAttribute("tabindex", "0");
-    lastname.setAttribute("tabindex", "0");
-    email.setAttribute("tabindex", "0");
-    message.setAttribute("tabindex", "0");
-    submit.setAttribute("tabindex", "0");
-    close.setAttribute("tabindex", "0");
-    close.setAttribute("aria-label", "Fermer la fenêtre modale");
+    if (!lastFocusedElement) {
+        lastFocusedElement = document.activeElement;
+    }
+    trapFocus(callbacks, "close-modal-btn");
+    contactModal.style.display = "flex";
+    const { firstname, lastname, email, message, submit, photographerName } =
+        getPhotographerDOMElements();
+    const elementsToRestoreFocus = [
+        firstname,
+        lastname,
+        email,
+        message,
+        submit,
+        closeModalBtn,
+    ];
+    elementsToRestoreFocus.forEach((element) => {
+        element.setAttribute("tabindex", "0");
+    });
+    closeModalBtn.setAttribute("aria-label", "Fermer la fenêtre modale");
     mainContent.setAttribute("aria-hidden", "true");
-    modal.setAttribute("aria-hidden", "false");
+    contactModal.setAttribute("aria-hidden", "false");
 
     callbacks.handleClose = (event) => {
         if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
             closeModal();
         }
     };
@@ -38,21 +51,23 @@ export function displayModal(name) {
     photographerName.textContent = name;
 
     modalBackground.addEventListener("click", closeModal);
-    close.addEventListener("click", closeModal);
-    close.addEventListener("keydown", callbacks.handleClose);
+    closeModalBtn.addEventListener("click", closeModal);
+    closeModalBtn.addEventListener("keydown", callbacks.handleClose);
     document.addEventListener("keydown", callbacks.handleCloseEsc);
     form.addEventListener("submit", submitForm);
 }
 
 export function closeModal() {
-    modal.style.display = "none";
+    contactModal.style.display = "none";
     modalBackground.removeEventListener("click", closeModal);
-    close.removeEventListener("click", closeModal);
-    close.removeEventListener("keydown", callbacks.handleClose);
+    closeModalBtn.removeEventListener("click", closeModal);
+    closeModalBtn.removeEventListener("keydown", callbacks.handleClose);
     document.removeEventListener("keydown", callbacks.handleCloseEsc);
     form.removeEventListener("submit", submitForm);
     mainContent.setAttribute("aria-hidden", "false");
-    modal.setAttribute("aria-hidden", "true");
+    contactModal.setAttribute("aria-hidden", "true");
+
+    untrapFocus(callbacks, lastFocusedElement);
 }
 
 function submitForm(e) {

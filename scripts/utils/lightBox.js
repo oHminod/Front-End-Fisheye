@@ -1,3 +1,5 @@
+import { trapFocus, untrapFocus } from "./DOMUtils.js";
+
 const lightBox = document.getElementById("lightbox");
 const lightboxBackground = document.getElementById("lightbox_background");
 const lightboxContent = document.getElementById("lightbox_content");
@@ -6,10 +8,16 @@ const mainContent = document.getElementById("main");
 
 const callbacks = {};
 
+let lastFocusedElement;
+
 export function displayLightbox(media, index) {
     const previousIndex = getPreviousIndex(index, media.length);
     const nextIndex = getNextIndex(index, media.length);
 
+    if (!lastFocusedElement) {
+        lastFocusedElement = document.activeElement;
+    }
+    trapFocus(callbacks, "close-lightbox-btn");
     setupLightbox();
     setupCloseButton();
     setupPreviousButton(media, previousIndex);
@@ -153,4 +161,5 @@ export function closeLightbox() {
 
     mainContent.setAttribute("aria-hidden", "false");
     lightBox.setAttribute("aria-hidden", "true");
+    untrapFocus(callbacks, lastFocusedElement);
 }

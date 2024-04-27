@@ -3,6 +3,8 @@ import { photographerTemplate } from "../templates/photographer.js";
 import {
     getPhotographerDOMElements,
     setClickAndEnterListener,
+    trapFocus,
+    untrapFocus,
 } from "../utils/DOMUtils.js";
 import { fetchData } from "./index.js";
 
@@ -95,10 +97,16 @@ async function init() {
 init();
 
 const callbacks = {};
-const { customOptions, mainContent } = getPhotographerDOMElements();
+const { customOptions, optionsTrigger, mainContent } =
+    getPhotographerDOMElements();
+let lastFocusedElement;
+
 setClickAndEnterListener(
     document.querySelector(".custom-select-trigger"),
     () => {
+        lastFocusedElement = document.activeElement;
+        trapFocus(callbacks, null, "custom-option");
+
         mainContent.setAttribute("aria-hidden", "true");
         customOptions.setAttribute("aria-hidden", "false");
         customOptions.classList.add("flex");
@@ -111,6 +119,7 @@ setClickAndEnterListener(
                     "keydown",
                     callbacks.handleEscClose
                 );
+                untrapFocus(callbacks, lastFocusedElement);
             }
         };
 
@@ -154,7 +163,10 @@ async function selectFilter(option) {
         );
     }
 
+    untrapFocus(callbacks, lastFocusedElement);
+
     mainContent.setAttribute("aria-hidden", "false");
     customOptions.setAttribute("aria-hidden", "true");
     customOptions.classList.remove("flex");
+    optionsTrigger.focus();
 }
