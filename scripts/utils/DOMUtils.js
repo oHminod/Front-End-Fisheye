@@ -74,7 +74,7 @@ const isLocal =
     window.location.hostname === "127.0.0.1";
 const logoLinkHref = isLocal ? "/" : "/Front-End-Fisheye/";
 
-function handleTabKey(e) {
+function handleKeyNav(e) {
     const tabIndexElements = document.querySelectorAll("*[tabindex]");
     const focusableElements = Array.from(tabIndexElements).filter(
         (element) => element.tabIndex >= 0
@@ -82,6 +82,10 @@ function handleTabKey(e) {
     const firstFocusableElement = focusableElements[0];
     const lastFocusableElement =
         focusableElements[focusableElements.length - 1];
+    const currentFocusIndex = focusableElements.indexOf(document.activeElement);
+    const nextFocusableElement = focusableElements[currentFocusIndex + 1];
+    const previousFocusableElement = focusableElements[currentFocusIndex - 1];
+
     if (e.key === "Tab" || e.keyCode === 9) {
         if (e.shiftKey) {
             if (document.activeElement === firstFocusableElement) {
@@ -95,6 +99,21 @@ function handleTabKey(e) {
             }
         }
     }
+    if (e.key === "ArrowDown" || e.keyCode === 40) {
+        e.preventDefault();
+        if (document.activeElement === lastFocusableElement) {
+            firstFocusableElement.focus();
+        } else {
+            nextFocusableElement.focus();
+        }
+    } else if (e.key === "ArrowUp" || e.keyCode === 38) {
+        e.preventDefault();
+        if (document.activeElement === firstFocusableElement) {
+            lastFocusableElement.focus();
+        } else {
+            previousFocusableElement.focus();
+        }
+    }
 }
 export function trapFocus(preservedClass = null) {
     const focusableElements = document.querySelectorAll("*[tabindex]");
@@ -106,7 +125,7 @@ export function trapFocus(preservedClass = null) {
             element.tabIndex = -1;
         }
     });
-    document.addEventListener("keydown", handleTabKey);
+    document.addEventListener("keydown", handleKeyNav);
 }
 
 export function untrapFocus(lastFocusedElement = null) {
@@ -114,7 +133,7 @@ export function untrapFocus(lastFocusedElement = null) {
     const { logoLink } = getPhotographerDOMElements();
     logoLink.setAttribute("href", logoLinkHref);
     focusableElements.forEach((element) => (element.tabIndex = 0));
-    document.removeEventListener("keydown", handleTabKey);
+    document.removeEventListener("keydown", handleKeyNav);
 
     if (lastFocusedElement) {
         lastFocusedElement.focus();
