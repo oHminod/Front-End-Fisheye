@@ -48,25 +48,20 @@ export function getPhotographerDOMElements() {
     };
 }
 
+const clickCallbacks = {};
 export function setClickAndEnterListener(element, callback) {
-    const keydownCallback = (e) => {
+    clickCallbacks.keydownCallback = function (e) {
         if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
             callback();
         }
     };
     element.addEventListener("click", callback);
-    element.addEventListener("keydown", keydownCallback);
+    element.addEventListener("keydown", clickCallbacks.keydownCallback);
 }
 export function removeClickAndEnterListener(element, callback) {
-    const keydownCallback = (e) => {
-        if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            callback();
-        }
-    };
     element.removeEventListener("click", callback);
-    element.removeEventListener("keydown", keydownCallback);
+    element.removeEventListener("keydown", clickCallbacks.keydownCallback);
 }
 
 const isLocal =

@@ -20,9 +20,8 @@ export function displayLightbox(media, index) {
     const previousIndex = getPreviousIndex(index, media.length);
     const nextIndex = getNextIndex(index, media.length);
 
-    if (!lastFocusedElement) {
-        lastFocusedElement = document.activeElement;
-    }
+    lastFocusedElement = document.getElementById("media" + media[index].id);
+
     trapFocus("preserve-lightbox-element");
     setupLightbox();
     setupCloseButton();
@@ -184,5 +183,6 @@ export function closeLightbox() {
 
     mainContent.setAttribute("aria-hidden", "false");
     lightBox.setAttribute("aria-hidden", "true");
+
     untrapFocus(lastFocusedElement);
 }

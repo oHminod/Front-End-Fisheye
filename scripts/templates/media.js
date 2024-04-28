@@ -50,6 +50,7 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
         imgBtn.setAttribute("class", "media-card__btn");
         imgBtn.setAttribute("tabindex", "0");
         imgBtn.setAttribute("aria-label", "Ouvrir l'image " + title);
+        imgBtn.id = "media" + mediaId;
         const img = document.createElement("img");
         img.setAttribute("src", `assets/media/${image}`);
         img.setAttribute("alt", title);
@@ -63,6 +64,7 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
         vidBtn.setAttribute("class", "media-card__btn");
         vidBtn.setAttribute("tabindex", "0");
         vidBtn.setAttribute("aria-label", "Ouvrir la vidéo " + title);
+        vidBtn.id = "media" + mediaId;
         const posterUrl = `assets/media/poster/${video.slice(0, -4)}.jpg`;
         const videoElement = document.createElement("video");
         videoElement.setAttribute("src", `assets/media/${video}`);
