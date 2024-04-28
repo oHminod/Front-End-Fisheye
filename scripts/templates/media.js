@@ -139,15 +139,19 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
         itemLikes.textContent = likes;
         const heart = document.createElement("p");
         heart.style.marginLeft = "0.5rem";
-        if (media.liked) {
-            heart.setAttribute("class", "fa fa-heart");
-        } else {
-            heart.setAttribute("class", "fa-regular fa-heart");
-        }
         const likesWrapper = document.createElement("button");
         likesWrapper.classList.add("likes");
         likesWrapper.setAttribute("tabindex", "0");
-        likesWrapper.setAttribute("aria-label", "Aimer l'image " + title);
+        if (media.liked) {
+            heart.setAttribute("class", "fa fa-heart");
+            likesWrapper.setAttribute(
+                "aria-label",
+                "Ne plus aimer l'image " + title
+            );
+        } else {
+            heart.setAttribute("class", "fa-regular fa-heart");
+            likesWrapper.setAttribute("aria-label", "Aimer l'image " + title);
+        }
         likesWrapper.style.cursor = "pointer";
         setClickAndEnterListener(likesWrapper, handleLikes);
 
