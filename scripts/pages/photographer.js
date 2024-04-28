@@ -110,7 +110,14 @@ const callbacks = {};
 const { customOptions, optionsTrigger, mainContent } =
     getPhotographerDOMElements();
 let lastFocusedElement;
-
+function closeFilterDropDown() {
+    untrapFocus(lastFocusedElement);
+    mainContent.setAttribute("aria-hidden", "false");
+    customOptions.setAttribute("aria-hidden", "true");
+    customOptions.classList.remove("flex");
+    optionsTrigger.setAttribute("aria-expanded", "false");
+    document.removeEventListener("keydown", callbacks.handleEscClose);
+}
 setClickAndEnterListener(
     document.querySelector(".custom-select-trigger"),
     () => {
@@ -126,20 +133,29 @@ setClickAndEnterListener(
         optionsTrigger.setAttribute("aria-expanded", "true");
         callbacks.handleEscClose = (event) => {
             if (event.key === "Escape") {
-                mainContent.setAttribute("aria-hidden", "false");
-                customOptions.setAttribute("aria-hidden", "true");
-                customOptions.classList.remove("flex");
-                optionsTrigger.setAttribute("aria-expanded", "false");
+                closeFilterDropDown();
                 document.removeEventListener(
                     "keydown",
                     callbacks.handleEscClose
                 );
-                untrapFocus(lastFocusedElement);
             }
         };
 
         previouslySelectedOption.focus();
         document.addEventListener("keydown", callbacks.handleEscClose);
+
+        function closefilterDropDownOnOutsideClick(event) {
+            const isClickInsideDropdown = optionsTrigger.contains(event.target);
+            if (!isClickInsideDropdown) {
+                closeFilterDropDown();
+                document.removeEventListener(
+                    "click",
+                    closefilterDropDownOnOutsideClick
+                );
+                mainContent.focus();
+            }
+        }
+        document.addEventListener("click", closefilterDropDownOnOutsideClick);
     }
 );
 
@@ -182,11 +198,5 @@ async function selectFilter(option) {
         );
     }
 
-    untrapFocus(lastFocusedElement);
-
-    mainContent.setAttribute("aria-hidden", "false");
-    customOptions.setAttribute("aria-hidden", "true");
-    customOptions.classList.remove("flex");
-    optionsTrigger.setAttribute("aria-expanded", "false");
-    optionsTrigger.focus();
+    closeFilterDropDown();
 }

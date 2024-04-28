@@ -46,16 +46,23 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
     }
 
     function createImageElement() {
+        const imgBtn = document.createElement("button");
+        imgBtn.setAttribute("class", "media-card__btn");
+        imgBtn.setAttribute("tabindex", "0");
+        imgBtn.setAttribute("aria-label", "Ouvrir l'image " + title);
         const img = document.createElement("img");
         img.setAttribute("src", `assets/media/${image}`);
         img.setAttribute("alt", title);
-        img.setAttribute("tabindex", "0");
-        img.setAttribute("aria-label", "Ouvrir l'image " + title);
-        setClickAndEnterListener(img, mediaAction);
-        return img;
+        imgBtn.appendChild(img);
+        setClickAndEnterListener(imgBtn, mediaAction);
+        return imgBtn;
     }
 
     function createVideoElement() {
+        const vidBtn = document.createElement("button");
+        vidBtn.setAttribute("class", "media-card__btn");
+        vidBtn.setAttribute("tabindex", "0");
+        vidBtn.setAttribute("aria-label", "Ouvrir la vidéo " + title);
         const posterUrl = `assets/media/poster/${video.slice(0, -4)}.jpg`;
         const videoElement = document.createElement("video");
         videoElement.setAttribute("src", `assets/media/${video}`);
@@ -63,8 +70,9 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
         videoElement.setAttribute("poster", posterUrl);
         videoElement.setAttribute("tabindex", "0");
         videoElement.setAttribute("aria-label", "Ouvrir la vidéo " + title);
-        setClickAndEnterListener(videoElement, mediaAction);
-        return videoElement;
+        vidBtn.appendChild(videoElement);
+        setClickAndEnterListener(vidBtn, mediaAction);
+        return vidBtn;
     }
 
     function mediaAction() {

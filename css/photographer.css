@@ -187,7 +187,6 @@
     font-size: 52px;
     font-weight: normal;
     margin: 0;
-    /* text-align: center; */
 }
 
 form {
@@ -241,6 +240,12 @@ form textarea {
     border-radius: 5px;
     cursor: pointer;
 }
+.media-card__btn {
+    padding: 0;
+    border: none;
+    display: flex;
+    border-radius: 5px;
+}
 
 .cartouche {
     display: flex;
@@ -281,13 +286,6 @@ form textarea {
     border-radius: 5px;
     cursor: pointer;
 }
-/* .fa-solid.fa-chevron-down {
-    color: white;
-    position: absolute;
-    right: 10px;
-    top: calc(50% - 0.5em);
-    pointer-events: none;
-} */
 
 .filter-result button {
     font-family: "DM Sans", sans-serif;
@@ -307,7 +305,6 @@ form textarea {
     justify-content: space-between;
     padding: 10px 20px;
     font-size: 20px;
-    /* padding-right: 50px; */
     background-color: #901c1c;
     color: white;
     cursor: pointer;
@@ -317,9 +314,6 @@ form textarea {
 }
 
 .arrow {
-    /* position: absolute;
-    right: 0;
-    top: 0; */
     display: flex;
     height: 50px;
     width: 50px;
@@ -361,12 +355,7 @@ form textarea {
     height: 2px;
     width: 80%;
 }
-/* .custom-options:first-child {
-    border-radius: 5px 5px 0 0;
-}
-.custom-options:last-child {
-    border-radius: 0 0 5px 5px;
-} */
+
 .custom-option {
     position: relative;
     display: flex;
@@ -379,7 +368,6 @@ form textarea {
     background: none;
     border: none;
     z-index: 100;
-    /* border-radius: 5px; */
 }
 .custom-option:hover,
 .custom-option:focus,
