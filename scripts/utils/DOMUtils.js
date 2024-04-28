@@ -72,7 +72,7 @@ export function removeClickAndEnterListener(element, callback) {
 const isLocal =
     window.location.hostname === "localhost" ||
     window.location.hostname === "127.0.0.1";
-const logoLinkHref = isLocal ? "/" : "/Front-End-Fisheye/";
+export const logoLinkHref = isLocal ? "/" : "/Front-End-Fisheye/";
 
 function handleKeyNav(e) {
     const tabIndexElements = document.querySelectorAll("*[tabindex]");

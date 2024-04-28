@@ -105,6 +105,11 @@
     font-weight: bold;
     transform: scaleY(2);
 }
+#lightbox .previous-btn:hover,
+#lightbox .next-btn:hover,
+#close-lightbox-btn:hover {
+    color: #d3573c;
+}
 #lightbox .previous-btn {
     left: 10px;
 }

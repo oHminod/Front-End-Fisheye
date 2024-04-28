@@ -1,6 +1,7 @@
 import { displayModal } from "../utils/contactForm.js";
 import {
     getPhotographerDOMElements,
+    logoLinkHref,
     setClickAndEnterListener,
 } from "../utils/DOMUtils.js";
 
@@ -11,9 +12,13 @@ export function photographerTemplate(photographer) {
 
     function getUserCardDOM() {
         const article = document.createElement("article");
-        const link = document.createElement("a");
-        link.setAttribute("href", `photographer.html?id=${id}`);
+        const link = document.createElement("button");
         link.setAttribute("title", name);
+        link.setAttribute("aria-label", "Voir la page de " + name);
+        link.setAttribute("tabindex", "0");
+        setClickAndEnterListener(link, () => {
+            window.location.href = logoLinkHref + `photographer.html?id=${id}`;
+        });
         const img = document.createElement("img");
         img.setAttribute("src", picture);
         img.setAttribute("alt", "image de " + name);

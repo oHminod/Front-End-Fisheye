@@ -2,6 +2,7 @@ import { mediaTemplate } from "../templates/media.js";
 import { photographerTemplate } from "../templates/photographer.js";
 import {
     getPhotographerDOMElements,
+    logoLinkHref,
     setClickAndEnterListener,
     trapFocus,
     untrapFocus,
@@ -27,11 +28,8 @@ async function init() {
     displayInfoCard(photographer, photographerMedia);
 
     const { logoLink } = getPhotographerDOMElements();
-    logoLink.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            logoLink.click();
-        }
+    setClickAndEnterListener(logoLink, () => {
+        window.location.href = logoLinkHref;
     });
 }
 

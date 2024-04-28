@@ -22,10 +22,14 @@ h1 {
     margin-right: 100px;
 }
 
-header a {
+header button {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: white;
+    border: none;
+    padding: 0;
+    cursor: pointer;
 }
 
 .logo {
@@ -48,14 +52,18 @@ header a {
     flex-direction: column;
 }
 
-.photographer_section article a {
+.photographer_section article button {
     text-decoration: none;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    border: none;
+    padding: 0;
+    background-color: white;
+    cursor: pointer;
 }
-.photographer_section article a:hover {
+.photographer_section article button:hover {
     text-decoration: underline;
     text-decoration-color: #d3573c;
 }

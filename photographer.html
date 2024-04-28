@@ -12,9 +12,9 @@
   </head>
   <body>
     <header>
-      <a href="/Front-End-Fisheye/" aria-label="Lien vers la page d'accueil" tabindex="0" id="logo_link">
+      <button aria-label="Lien vers la page d'accueil" tabindex="0" id="logo_link">
         <img src="assets/images/logo.png" class="logo" alt="fisheye logo" />
-      </a>
+      </button>
     </header>
     <main id="main" aria-hidden="false">
       <div class="photograph-header"></div>
@@ -75,15 +75,5 @@
       <div id="close-lightbox-btn" class="preserve-lightbox-element" tabindex="0"><span class="fa fa-times"></span></div>
     </div>
     <script type="module" src="scripts/pages/photographer.js"></script>
-    <script type="module" src="scripts/utils/contactForm.js"></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', (event) => {
-        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-        const logoLink = document.getElementById('logo_link');
-        if (logoLink) {
-          logoLink.href = isLocal ? '/' : '/Front-End-Fisheye/';
-        }
-      });
-    </script>
   </body>
 </html>
