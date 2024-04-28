@@ -276,13 +276,11 @@ form textarea {
 .cartouche h2 {
     font-size: 24px;
     font-weight: 100;
-    font-smoothing: antialiased;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 .cartouche p {
     font-size: 20px;
-    font-smoothing: antialiased;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
