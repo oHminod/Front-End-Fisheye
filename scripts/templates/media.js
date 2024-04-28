@@ -135,7 +135,7 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
         } else {
             heart.setAttribute("class", "fa-regular fa-heart");
         }
-        const likesWrapper = document.createElement("div");
+        const likesWrapper = document.createElement("button");
         likesWrapper.classList.add("likes");
         likesWrapper.setAttribute("tabindex", "0");
         likesWrapper.setAttribute("aria-label", "liker l'image " + title);
