@@ -32,8 +32,16 @@ export function displayLightbox(media, index) {
 
     if (media[index].image) {
         displayImage(media[index]);
+        lightboxContent.setAttribute(
+            "aria-label",
+            "Vous visionnez l'image " + media[index].title
+        );
     } else if (media[index].video) {
         displayVideo(media[index]);
+        lightboxContent.setAttribute(
+            "aria-label",
+            "Vous visionnez la vidéo " + media[index].title
+        );
     }
 }
 

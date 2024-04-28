@@ -68,8 +68,6 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
         videoElement.setAttribute("src", `assets/media/${video}`);
         videoElement.setAttribute("alt", title);
         videoElement.setAttribute("poster", posterUrl);
-        videoElement.setAttribute("tabindex", "0");
-        videoElement.setAttribute("aria-label", "Ouvrir la vidéo " + title);
         vidBtn.appendChild(videoElement);
         setClickAndEnterListener(vidBtn, mediaAction);
         return vidBtn;
@@ -114,7 +112,7 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
                 sortedMedia[index].liked = true;
                 likesWrapper.setAttribute(
                     "aria-label",
-                    "Ne plus liker l'image " + title
+                    "Ne plus aimer l'image " + title
                 );
             } else {
                 heart.classList.replace("fa", "fa-regular");
@@ -122,7 +120,7 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
                 sortedMedia[index].liked = false;
                 likesWrapper.setAttribute(
                     "aria-label",
-                    "Liker l'image " + title
+                    "Aimer l'image " + title
                 );
             }
             itemLikes.textContent = sortedMedia[index].likes;
@@ -135,6 +133,7 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
         }
 
         const itemLikes = document.createElement("p");
+        itemLikes.setAttribute("aria-label", "Nombre de j'aime");
         itemLikes.textContent = likes;
         const heart = document.createElement("p");
         heart.style.marginLeft = "0.5rem";
@@ -146,7 +145,7 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
         const likesWrapper = document.createElement("button");
         likesWrapper.classList.add("likes");
         likesWrapper.setAttribute("tabindex", "0");
-        likesWrapper.setAttribute("aria-label", "Liker l'image " + title);
+        likesWrapper.setAttribute("aria-label", "Aimer l'image " + title);
         likesWrapper.style.cursor = "pointer";
         setClickAndEnterListener(likesWrapper, handleLikes);
 
