@@ -165,7 +165,10 @@ function setupFilterMenu() {
                 ".custom-option.selected"
             );
             previouslySelectedOption.classList.remove("selected");
+            previouslySelectedOption.id =
+                previouslySelectedOption.getAttribute("data-value");
             previouslySelectedOption.setAttribute("aria-selected", "false");
+            option.id = "currently_selected_option";
             option.classList.add("selected");
             option.setAttribute("aria-selected", "true");
 
