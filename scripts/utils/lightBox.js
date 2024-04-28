@@ -60,6 +60,10 @@ function setupLightbox() {
 function setupCloseButton() {
     closeLightboxBtn.addEventListener("click", closeLightbox);
     closeLightboxBtn.setAttribute("aria-label", "Fermer la lightbox");
+    const closeIcon = document.createElement("span");
+    closeIcon.setAttribute("class", "fa fa-times");
+    closeLightboxBtn.innerText = "";
+    closeLightboxBtn.appendChild(closeIcon);
     callbacks.handleClose = (event) => {
         if (event.key === "Enter" || event.key === " ") {
             event.preventDefault();
@@ -140,7 +144,10 @@ function createButton(className, ariaLabel, innerText) {
 function displayImage(mediaItem) {
     const image = document.createElement("img");
     image.setAttribute("src", `assets/media/${mediaItem.image}`);
-    image.setAttribute("alt", mediaItem.title);
+    image.setAttribute(
+        "alt",
+        mediaItem.title + ", image de " + mediaItem.photographerName
+    );
     const imageTitle = document.createElement("h2");
     imageTitle.textContent = mediaItem.title;
     lightboxContent.appendChild(image);
@@ -156,6 +163,7 @@ function displayVideo(mediaItem) {
     );
     video.setAttribute("title", mediaItem.title);
     video.setAttribute("controls", true);
+    video.setAttribute("track", "no audio");
     const videoTitle = document.createElement("h2");
     videoTitle.textContent = mediaItem.title;
     lightboxContent.appendChild(video);

@@ -24,7 +24,8 @@
     border-radius: 5px 5px 0 0;
 }
 
-#info_card p {
+#info_card p,
+#info_card h2 {
     font-size: 20px;
     font-weight: bold;
     margin: 0;
@@ -236,6 +237,8 @@ form textarea {
     gap: 3% 10%;
     padding: 100px;
     padding-top: 10px;
+    padding-bottom: 100px;
+    overflow: scroll;
 }
 
 .media_section article img,

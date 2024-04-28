@@ -94,9 +94,9 @@ export function displayInfoCard(photographer, media) {
     infoCard.innerHTML = "";
     const totalLikes = media.reduce((acc, media) => acc + media.likes, 0);
     const price = photographer.price;
-    const likes = document.createElement("p");
+    const likes = document.createElement("h2");
     likes.textContent = totalLikes;
-    const priceP = document.createElement("p");
+    const priceP = document.createElement("h2");
     priceP.textContent = `${price}€ / jour`;
     const heart = document.createElement("i");
     heart.setAttribute("class", "fa fa-heart");
