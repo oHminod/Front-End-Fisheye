@@ -112,10 +112,18 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
                 heart.classList.replace("fa-regular", "fa");
                 sortedMedia[index].likes += 1;
                 sortedMedia[index].liked = true;
+                likesWrapper.setAttribute(
+                    "aria-label",
+                    "Ne plus liker l'image " + title
+                );
             } else {
                 heart.classList.replace("fa", "fa-regular");
                 sortedMedia[index].likes -= 1;
                 sortedMedia[index].liked = false;
+                likesWrapper.setAttribute(
+                    "aria-label",
+                    "Liker l'image " + title
+                );
             }
             itemLikes.textContent = sortedMedia[index].likes;
 
@@ -138,7 +146,7 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
         const likesWrapper = document.createElement("button");
         likesWrapper.classList.add("likes");
         likesWrapper.setAttribute("tabindex", "0");
-        likesWrapper.setAttribute("aria-label", "liker l'image " + title);
+        likesWrapper.setAttribute("aria-label", "Liker l'image " + title);
         likesWrapper.style.cursor = "pointer";
         setClickAndEnterListener(likesWrapper, handleLikes);
 
