@@ -22,10 +22,10 @@
         <h2 id="filter_label">Trier par </h2>
         <div class="custom-select-filter" id="filter_select">
           <button class="custom-select-trigger" role="combobox" aria-controls="listbox" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="filter_label selected_option" aria-label="Trier les images" tabindex="0">
-            <p id="selected_option">Popularité</p>
-            <div class="arrow"><p><span class="fa-solid fa-chevron-down"></span></p></div>
+            <span id="selected_option">Popularité</span>
+            <span class="arrow"><i class="fa-solid fa-chevron-down"></i></span>
           </button>
-          <datalist class="custom-options" role="listbox" id="custom_options" aria-hidden="true" aria-activedescendant="selected_option">
+          <div class="custom-options" role="listbox" id="custom_options" aria-hidden="true" aria-activedescendant="selected_option">
             <button class="custom-option selected first-option" data-value="likes" role="option" aria-label="Trier par popularité" tabindex="0" aria-selected="true">Popularité
               <span class="arrow"><i class="fa-solid fa-chevron-down"></i></span>
             </button>
@@ -33,7 +33,7 @@
             <button class="custom-option" data-value="date" role="option" aria-label="Trier par date" tabindex="0" aria-selected="false">Date</button>
             <hr>
             <button class="custom-option" data-value="title" role="option" aria-label="Trier par titre" tabindex="0" aria-selected="false">Titre</button>
-          </datalist>
+          </div>
         </div>
       </div>
     </main>
@@ -45,7 +45,7 @@
             <h2>Contactez-moi</h2>
             <h2 id="photographer_name">Nom du photographe</h2>
           </div>
-          <button id="close-modal-btn" class="preserve-contact-element" alt="Fermeture de la modale de contact" tabindex="0">
+          <button id="close-modal-btn" class="preserve-contact-element" aria-label="Fermeture de la modale de contact" tabindex="0">
             <img src="assets/icons/close.svg" alt="Fermeture de la modale de contact" />
           </button>
         </header>
