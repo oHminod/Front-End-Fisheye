@@ -159,6 +159,12 @@
     color: black;
 }
 
+#close-modal-btn {
+    background-color: #db8876;
+    border: none;
+    cursor: pointer;
+}
+
 .modal {
     border-radius: 5px;
     background-color: #db8876;
@@ -181,11 +187,6 @@
     width: 100%;
     height: auto;
     padding-bottom: 35px;
-}
-
-.modal header img {
-    cursor: pointer;
-    margin-top: 16px;
 }
 
 .modal header h2 {
