@@ -233,7 +233,7 @@ form textarea {
 .media_section {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 70px;
+    gap: 3% 10%;
     padding: 100px;
     padding-top: 10px;
 }
@@ -245,6 +245,11 @@ form textarea {
     object-fit: cover;
     border-radius: 5px;
     cursor: pointer;
+}
+.media-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 100%;
 }
 .media-card__btn {
     padding: 0;
@@ -258,6 +263,7 @@ form textarea {
     justify-content: space-between;
     align-items: start;
     gap: 5px;
+    padding-top: 10px;
 }
 
 .cartouche h2,
@@ -265,13 +271,27 @@ form textarea {
     color: #901c1c;
     margin: 0;
 }
+.cartouche h2 {
+    font-size: 24px;
+    font-weight: 100;
+    font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.cartouche p {
+    font-size: 20px;
+    font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 .likes {
     display: flex;
     align-items: center;
     border: none;
     padding: 0;
-    padding-top: 10px;
+    padding-top: 5px;
     background-color: white;
+    gap: 5px;
 }
 
 .filter-result {

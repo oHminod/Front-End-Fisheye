@@ -138,7 +138,6 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
         itemLikes.setAttribute("aria-label", "Nombre de j'aime");
         itemLikes.textContent = likes;
         const heart = document.createElement("p");
-        heart.style.marginLeft = "0.5rem";
         const likesWrapper = document.createElement("button");
         likesWrapper.classList.add("likes");
         likesWrapper.setAttribute("tabindex", "0");
