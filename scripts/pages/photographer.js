@@ -1,5 +1,6 @@
 import { mediaTemplate } from "../templates/media.js";
 import { photographerTemplate } from "../templates/photographer.js";
+import { fetchData } from "../utils/dataUtils.js";
 import {
     getPhotographerDOMElements,
     logoLinkHref,
@@ -7,7 +8,6 @@ import {
     trapFocus,
     untrapFocus,
 } from "../utils/DOMUtils.js";
-import { fetchData } from "./index.js";
 
 const photographers = [];
 const media = [];
@@ -27,26 +27,50 @@ async function globallyFetchData() {
  * Initialise l'application.
  */
 async function init() {
-    await globallyFetchData();
-    const searchParams = new URLSearchParams(window.location.search);
-    const id = searchParams.get("id");
-    const photographer = photographers.find(
-        (photographer) => photographer.id == id
-    );
-    const photographerMedia = media.filter(
-        (media) => media.photographerId == id
-    );
+    try {
+        await globallyFetchData();
+        const searchParams = new URLSearchParams(window.location.search);
+        const id = searchParams.get("id");
+        const photographer = photographers.find(
+            (photographer) => photographer.id == id
+        );
+        const photographerMedia = media.filter(
+            (media) => media.photographerId == id
+        );
 
-    displayPhotographerData(photographer);
-    displayMediaData(photographerMedia, photographer);
-    displayInfoCard(photographer, photographerMedia);
+        displayPhotographerData(photographer);
+        displayMediaData(photographerMedia, photographer);
+        displayInfoCard(photographer, photographerMedia);
 
-    const { logoLink } = getPhotographerDOMElements();
-    setClickAndEnterListener(logoLink, () => {
-        window.location.href = logoLinkHref;
-    });
+        const { logoLink } = getPhotographerDOMElements();
+        setClickAndEnterListener(logoLink, () => {
+            window.location.href = logoLinkHref;
+        });
 
-    setupFilterMenu();
+        setupFilterMenu();
+    } catch (error) {
+        console.error(error);
+    }
+    // await globallyFetchData();
+    // const searchParams = new URLSearchParams(window.location.search);
+    // const id = searchParams.get("id");
+    // const photographer = photographers.find(
+    //     (photographer) => photographer.id == id
+    // );
+    // const photographerMedia = media.filter(
+    //     (media) => media.photographerId == id
+    // );
+
+    // displayPhotographerData(photographer);
+    // displayMediaData(photographerMedia, photographer);
+    // displayInfoCard(photographer, photographerMedia);
+
+    // const { logoLink } = getPhotographerDOMElements();
+    // setClickAndEnterListener(logoLink, () => {
+    //     window.location.href = logoLinkHref;
+    // });
+
+    // setupFilterMenu();
 }
 
 init();
