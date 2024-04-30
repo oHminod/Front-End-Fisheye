@@ -74,19 +74,6 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
         imgBtn.appendChild(img);
         setClickAndEnterListener(imgBtn, mediaAction);
         return imgBtn;
-        // const vidBtn = document.createElement("button");
-        // vidBtn.setAttribute("class", "media-card__btn");
-        // vidBtn.setAttribute("tabindex", "0");
-        // vidBtn.setAttribute("aria-label", "Ouvrir la vidéo " + title);
-        // vidBtn.id = "media" + mediaId;
-        // const posterUrl = `assets/media/poster/${video.slice(0, -4)}.jpg`;
-        // const videoElement = document.createElement("video");
-        // videoElement.setAttribute("src", `assets/media/${video}`);
-        // videoElement.setAttribute("aria-label", title);
-        // videoElement.setAttribute("poster", posterUrl);
-        // vidBtn.appendChild(videoElement);
-        // setClickAndEnterListener(vidBtn, mediaAction);
-        // return vidBtn;
     }
 
     function mediaAction() {
@@ -145,6 +132,10 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
                 const mediaSection = document.querySelector(".media_section");
                 mediaSection.remove();
                 displayMediaData(sortedMedia, photographer, filter);
+                const likeButtonToFocusAfterRender = document.getElementById(
+                    "like" + mediaId
+                );
+                likeButtonToFocusAfterRender.focus();
             }
         }
 
@@ -155,6 +146,7 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
         const likesWrapper = document.createElement("button");
         likesWrapper.classList.add("likes");
         likesWrapper.setAttribute("tabindex", "0");
+        likesWrapper.id = "like" + mediaId;
         if (media.liked) {
             heart.setAttribute("class", "fa fa-heart");
             likesWrapper.setAttribute(
