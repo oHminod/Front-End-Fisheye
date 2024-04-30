@@ -13,6 +13,10 @@ const mainContent = document.getElementById("main");
 const callbacks = {};
 let lastFocusedElement;
 
+/**
+ * Affiche la fenêtre modale de contact.
+ * @param {string} name - Le nom du photographe.
+ */
 export function displayModal(name) {
     if (!lastFocusedElement) {
         lastFocusedElement = document.activeElement;
@@ -46,6 +50,9 @@ export function displayModal(name) {
     form.addEventListener("submit", submitForm);
 }
 
+/**
+ * Ferme la fenêtre modale de contact.
+ */
 export function closeModal() {
     contactModal.style.display = "none";
     modalBackground.removeEventListener("click", closeModal);
@@ -59,6 +66,10 @@ export function closeModal() {
     untrapFocus(lastFocusedElement);
 }
 
+/**
+ * Soumet le formulaire de contact et affiche les données soumises dans la console.
+ * @param {Event} e - L'événement de soumission du formulaire.
+ */
 function submitForm(e) {
     e.preventDefault();
     const submittedForm = e.target;

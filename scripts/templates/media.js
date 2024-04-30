@@ -5,6 +5,15 @@ import {
 } from "../utils/DOMUtils.js";
 import { displayLightbox } from "../utils/lightBox.js";
 
+/**
+ * Crée un modèle de média.
+ * @param {Object} media - Les données du média.
+ * @param {number} index - L'index du média dans le tableau de médias.
+ * @param {Object[]} sortedMedia - Le tableau de médias triés.
+ * @param {Object} photographer - Les données du photographe.
+ * @param {string} filter - Le filtre utilisé pour trier les médias.
+ * @returns {Object} Un objet avec une méthode pour obtenir le DOM du média.
+ */
 export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
     const {
         id: mediaId,
@@ -18,6 +27,10 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
     } = media;
     const { mainSection, lightBox } = getPhotographerDOMElements();
 
+    /**
+     * Obtient le DOM de la carte de média.
+     * @returns {HTMLElement} L'élément DOM de la carte de média.
+     */
     function getMediaCardDOM() {
         const article = createArticle();
         const cartouche = createCartouche();
@@ -34,6 +47,10 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
         return article;
     }
 
+    /**
+     * Crée un élément d'article.
+     * @returns {HTMLElement} L'élément d'article.
+     */
     function createArticle() {
         const article = document.createElement("article");
         article.setAttribute("class", "media-card");
@@ -45,6 +62,10 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
         return article;
     }
 
+    /**
+     * Crée un élément d'image.
+     * @returns {HTMLElement} L'élément d'image.
+     */
     function createImageElement() {
         const imgBtn = document.createElement("button");
         imgBtn.setAttribute("class", "media-card__btn");
@@ -59,6 +80,10 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
         return imgBtn;
     }
 
+    /**
+     * Crée un élément vidéo.
+     * @returns {HTMLElement} L'élément vidéo.
+     */
     function createVideoElement() {
         const imgBtn = document.createElement("button");
         imgBtn.setAttribute("class", "media-card__btn");
@@ -76,12 +101,19 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
         return imgBtn;
     }
 
+    /**
+     * Exécute l'action de média (affichage de la lightbox).
+     */
     function mediaAction() {
         displayLightbox(sortedMedia, index);
         mainSection.setAttribute("aria-hidden", "true");
         lightBox.setAttribute("aria-hidden", "false");
     }
 
+    /**
+     * Crée un cartouche.
+     * @returns {HTMLElement} L'élément de cartouche.
+     */
     function createCartouche() {
         const cartouche = document.createElement("div");
         cartouche.setAttribute("class", "cartouche");
@@ -93,12 +125,22 @@ export function mediaTemplate(media, index, sortedMedia, photographer, filter) {
         return cartouche;
     }
 
+    /**
+     * Crée un élément de likes.
+     * @returns {HTMLElement} L'élément de likes.
+     */
     function createItemLikes() {
+        /**
+         * Gère les likes.
+         */
         function handleLikes() {
             toggleLike();
             displayInfoCard(photographer, sortedMedia);
         }
 
+        /**
+         * Bascule le like.
+         */
         function toggleLike() {
             const anotherItemHasTheSameLikes = sortedMedia.some((media) => {
                 if (media.photographerId === photographer.id) {

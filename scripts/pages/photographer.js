@@ -12,6 +12,9 @@ import { fetchData } from "./index.js";
 const photographers = [];
 const media = [];
 
+/**
+ * Récupère globalement les données si elles n'ont pas déjà été récupérées.
+ */
 async function globallyFetchData() {
     if (!photographers.length || !media.length) {
         const data = await fetchData();
@@ -20,6 +23,9 @@ async function globallyFetchData() {
     }
 }
 
+/**
+ * Initialise l'application.
+ */
 async function init() {
     await globallyFetchData();
     const searchParams = new URLSearchParams(window.location.search);
@@ -45,6 +51,10 @@ async function init() {
 
 init();
 
+/**
+ * Affiche les données du photographe.
+ * @param {Object} photographer - Les données du photographe.
+ */
 function displayPhotographerData(photographer) {
     const { photographerHeader } = getPhotographerDOMElements();
     const photographerInfoModel = photographerTemplate(photographer);
@@ -52,6 +62,12 @@ function displayPhotographerData(photographer) {
     photographerHeader.appendChild(photographerInfoDOM);
 }
 
+/**
+ * Trie les médias en fonction du filtre.
+ * @param {string} filter - Le filtre à utiliser pour le tri.
+ * @param {Object[]} media - Les médias à trier.
+ * @returns {Object[]} Les médias triés.
+ */
 function sortMedia(filter = "id", media) {
     return media.sort((a, b) => {
         if (filter === "likes") {
@@ -67,6 +83,12 @@ function sortMedia(filter = "id", media) {
     });
 }
 
+/**
+ * Affiche les données des médias.
+ * @param {Object[]} media - Les médias à afficher.
+ * @param {Object} photographer - Les données du photographe.
+ * @param {string} filter - Le filtre à utiliser pour le tri des médias.
+ */
 export function displayMediaData(media, photographer, filter = "likes") {
     const { mainSection } = getPhotographerDOMElements();
     const mediaSection = document.createElement("section");
@@ -89,6 +111,11 @@ export function displayMediaData(media, photographer, filter = "likes") {
     mainSection.appendChild(mediaSection);
 }
 
+/**
+ * Affiche la carte d'information.
+ * @param {Object} photographer - Les données du photographe.
+ * @param {Object[]} media - Les médias du photographe.
+ */
 export function displayInfoCard(photographer, media) {
     const { infoCard } = getPhotographerDOMElements();
     infoCard.innerHTML = "";
@@ -106,11 +133,18 @@ export function displayInfoCard(photographer, media) {
     infoCard.appendChild(priceP);
 }
 
+/**
+ * Configure le menu de filtrage.
+ */
 function setupFilterMenu() {
     const callbacks = {};
     const { customOptions, optionsTrigger, mainContent } =
         getPhotographerDOMElements();
     let lastFocusedElement;
+
+    /**
+     * Ferme le menu déroulant du filtre.
+     */
     function closeFilterDropDown() {
         untrapFocus(lastFocusedElement);
         mainContent.setAttribute("aria-hidden", "false");
@@ -121,6 +155,9 @@ function setupFilterMenu() {
     }
     setClickAndEnterListener(optionsTrigger, triggerFilterDropDown);
 
+    /**
+     * Déclenche le menu déroulant du filtre.
+     */
     function triggerFilterDropDown() {
         const previouslySelectedOption = customOptions.querySelector(
             ".custom-option.selected"
@@ -159,6 +196,10 @@ function setupFilterMenu() {
         document.addEventListener("click", closefilterDropDownOnOutsideClick);
     }
 
+    /**
+     * Sélectionne un filtre.
+     * @param {HTMLElement} option - L'option de filtre à sélectionner.
+     */
     async function selectFilter(option) {
         if (!option.classList.contains("selected")) {
             const previouslySelectedOption = customOptions.querySelector(
@@ -199,6 +240,7 @@ function setupFilterMenu() {
         closeFilterDropDown();
     }
 
+    // Ajoute des écouteurs d'événements à chaque option de filtre.
     document.querySelectorAll(".custom-option").forEach((option) => {
         setClickAndEnterListener(option, async () => {
             await selectFilter(option);

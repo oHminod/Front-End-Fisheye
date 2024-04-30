@@ -5,11 +5,20 @@ import {
     setClickAndEnterListener,
 } from "../utils/DOMUtils.js";
 
+/**
+ * Crée un modèle de photographe.
+ * @param {Object} photographer - Les données du photographe.
+ * @returns {Object} Un objet avec des méthodes pour obtenir le DOM du photographe.
+ */
 export function photographerTemplate(photographer) {
     const { name, portrait, id, city, country, tagline, price } = photographer;
 
     const picture = `assets/photographers/${portrait}`;
 
+    /**
+     * Obtient le DOM de la carte de l'utilisateur.
+     * @returns {HTMLElement} L'élément DOM de la carte de l'utilisateur.
+     */
     function getUserCardDOM() {
         const article = document.createElement("article");
         const link = document.createElement("button");
@@ -41,6 +50,10 @@ export function photographerTemplate(photographer) {
         return article;
     }
 
+    /**
+     * Obtient le DOM des informations du photographe.
+     * @returns {HTMLElement} L'élément DOM des informations du photographe.
+     */
     function getPhotographerInfoDOM() {
         const article = document.createElement("article");
         const infoDiv = document.createElement("div");
