@@ -253,4 +253,5 @@ export function closeLightbox() {
     lightBox.setAttribute("aria-hidden", "true");
 
     untrapFocus(lastFocusedElement);
+    trapFocus("all");
 }

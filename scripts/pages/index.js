@@ -1,6 +1,6 @@
 import { photographerTemplate } from "../templates/photographer.js";
 import { fetchData } from "../utils/dataUtils.js";
-
+import { trapFocus } from "../utils/DOMUtils.js";
 /**
  * Récupère les données des photographes.
  * @returns {Promise<{photographers: Object[]}>} Un objet contenant un tableau de photographes.
@@ -44,6 +44,7 @@ async function init() {
                 }
             });
         });
+        trapFocus("all");
     } catch (error) {
         console.error(error);
     }

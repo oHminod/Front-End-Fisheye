@@ -64,6 +64,7 @@ export function closeModal() {
     contactModal.setAttribute("aria-hidden", "true");
 
     untrapFocus(lastFocusedElement);
+    trapFocus("all");
 }
 
 /**

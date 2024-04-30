@@ -85,15 +85,29 @@ const isLocal =
     window.location.hostname === "127.0.0.1";
 export const logoLinkHref = isLocal ? "/" : "/Front-End-Fisheye/";
 
+let focusAll = false;
 /**
  * Gère la navigation par touches.
  * @param {KeyboardEvent} e - L'événement de touche.
  */
 function handleKeyNav(e) {
     const tabIndexElements = document.querySelectorAll("*[tabindex]");
-    const focusableElements = Array.from(tabIndexElements).filter(
-        (element) => element.tabIndex >= 0
-    );
+    const notChildrenOfAriaHiddenElements = focusAll
+        ? Array.from(tabIndexElements).filter((element) => {
+              let parent = element.parentElement;
+              while (parent) {
+                  if (parent.getAttribute("aria-hidden") === "true") {
+                      return false;
+                  }
+                  parent = parent.parentElement;
+              }
+              return true;
+          })
+        : tabIndexElements;
+
+    const focusableElements = Array.from(
+        notChildrenOfAriaHiddenElements
+    ).filter((element) => element.tabIndex >= 0);
     const firstFocusableElement = focusableElements[0];
     const lastFocusableElement =
         focusableElements[focusableElements.length - 1];
@@ -123,7 +137,10 @@ function handleKeyNav(e) {
         }
     } else if (e.key === "ArrowUp" || e.keyCode === 38) {
         e.preventDefault();
-        if (document.activeElement === firstFocusableElement) {
+        if (
+            document.activeElement === firstFocusableElement ||
+            previousFocusableElement === undefined
+        ) {
             lastFocusableElement.focus();
         } else {
             previousFocusableElement.focus();
@@ -137,15 +154,21 @@ function handleKeyNav(e) {
  */
 export function trapFocus(preservedClass = null) {
     const focusableElements = document.querySelectorAll("*[tabindex]");
-    const { logoLink } = getPhotographerDOMElements();
+    if (preservedClass && preservedClass !== "all") {
+        const { logoLink } = getPhotographerDOMElements();
 
-    logoLink.removeAttribute("href");
-    focusableElements.forEach((element) => {
-        if (preservedClass && !element.classList.contains(preservedClass)) {
-            element.tabIndex = -1;
-        }
-    });
-    document.addEventListener("keydown", handleKeyNav);
+        logoLink.removeAttribute("href");
+        focusableElements.forEach((element) => {
+            if (preservedClass && !element.classList.contains(preservedClass)) {
+                element.tabIndex = -1;
+            }
+        });
+        focusAll = false;
+        document.addEventListener("keydown", handleKeyNav);
+    } else {
+        focusAll = true;
+        document.addEventListener("keydown", handleKeyNav);
+    }
 }
 
 /**

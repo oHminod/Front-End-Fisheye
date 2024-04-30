@@ -48,29 +48,10 @@ async function init() {
         });
 
         setupFilterMenu();
+        trapFocus("all");
     } catch (error) {
         console.error(error);
     }
-    // await globallyFetchData();
-    // const searchParams = new URLSearchParams(window.location.search);
-    // const id = searchParams.get("id");
-    // const photographer = photographers.find(
-    //     (photographer) => photographer.id == id
-    // );
-    // const photographerMedia = media.filter(
-    //     (media) => media.photographerId == id
-    // );
-
-    // displayPhotographerData(photographer);
-    // displayMediaData(photographerMedia, photographer);
-    // displayInfoCard(photographer, photographerMedia);
-
-    // const { logoLink } = getPhotographerDOMElements();
-    // setClickAndEnterListener(logoLink, () => {
-    //     window.location.href = logoLinkHref;
-    // });
-
-    // setupFilterMenu();
 }
 
 init();
@@ -176,6 +157,7 @@ function setupFilterMenu() {
         customOptions.classList.remove("flex");
         optionsTrigger.setAttribute("aria-expanded", "false");
         document.removeEventListener("keydown", callbacks.handleEscClose);
+        trapFocus("all");
     }
     setClickAndEnterListener(optionsTrigger, triggerFilterDropDown);
 

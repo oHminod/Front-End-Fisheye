@@ -28,6 +28,8 @@ export function photographerTemplate(photographer) {
         });
         const div = document.createElement("div");
         div.id = "button-label-" + id;
+        div.setAttribute("aria-label", "Voir la page de " + name);
+        link.setAttribute("aria-labelledby", div.id);
         const img = document.createElement("img");
         img.setAttribute("src", picture);
         img.setAttribute("alt", "image de " + name);
@@ -36,7 +38,6 @@ export function photographerTemplate(photographer) {
         div.appendChild(img);
         div.appendChild(h2);
         link.appendChild(div);
-        link.setAttribute("aria-labelledby", div.id);
         const h3 = document.createElement("h3");
         h3.textContent = `${city}, ${country}`;
         const p = document.createElement("p");
