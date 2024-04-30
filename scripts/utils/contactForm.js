@@ -75,5 +75,5 @@ function submitForm(e) {
     const submittedForm = e.target;
     const formData = new FormData(submittedForm);
     const data = Object.fromEntries(formData);
-    console.log(data);
+    console.log("contenu du formulaire :", data);
 }
