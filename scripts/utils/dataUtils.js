@@ -29,24 +29,3 @@ export async function globallyFetchData() {
     }
     return { photographers, media };
 }
-
-/**
- * Trie les médias en fonction du filtre.
- * @param {string} filter - Le filtre à utiliser pour le tri.
- * @param {Object[]} media - Les médias à trier.
- * @returns {Object[]} Les médias triés.
- */
-export function sortMedia(filter = "id", media) {
-    return media.sort((a, b) => {
-        if (filter === "likes") {
-            return b[filter] - a[filter];
-        }
-        if (filter === "title") {
-            return a[filter].localeCompare(b[filter]);
-        }
-        if (filter === "date") {
-            return new Date(a[filter]) - new Date(b[filter]);
-        }
-        return a[filter] - b[filter];
-    });
-}

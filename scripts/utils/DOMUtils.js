@@ -115,7 +115,7 @@ function handleKeyNav(e) {
     const nextFocusableElement = focusableElements[currentFocusIndex + 1];
     const previousFocusableElement = focusableElements[currentFocusIndex - 1];
 
-    if (e.key === "Tab" || e.keyCode === 9) {
+    if (e.key === "Tab") {
         if (e.shiftKey) {
             if (document.activeElement === firstFocusableElement) {
                 lastFocusableElement.focus();
@@ -128,14 +128,14 @@ function handleKeyNav(e) {
             }
         }
     }
-    if (e.key === "ArrowDown" || e.keyCode === 40) {
+    if (e.key === "ArrowDown") {
         e.preventDefault();
         if (document.activeElement === lastFocusableElement) {
             firstFocusableElement.focus();
         } else {
             nextFocusableElement.focus();
         }
-    } else if (e.key === "ArrowUp" || e.keyCode === 38) {
+    } else if (e.key === "ArrowUp") {
         e.preventDefault();
         if (
             document.activeElement === firstFocusableElement ||
